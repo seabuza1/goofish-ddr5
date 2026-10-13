@@ -1,210 +1,145 @@
-<!doctype html><html lang="pt-BR" data-theme="light"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0f1714"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&family=Newsreader:opsz,wght@6..72,400..600&display=swap" rel="stylesheet">
-<title>DDR5 no Goofish — Painel</title>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#f7f6f2">
+<title>DDR5 no Goofish</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--hero:#1f4f45;--bg:#0f1714;--card:#16211c;--fg:#e6ece7;--mut:#8fa197;--acc:#d9a93a;--acf:#1a1405;--ok:#5fbf8a;--bd:#24332c;--warn:#e0a24a;--bad:#e0645a;--sat:env(safe-area-inset-top);--sab:env(safe-area-inset-bottom)}
-[data-theme=light]{--bg:#f6f4ee;--card:#fffdf8;--fg:#1c2421;--mut:#5f6a64;--bd:#e3dfd3;--acc:#0f5c57;--acf:#fff;--ok:#2f7d55;--warn:#9a5b00;--bad:#b23a30;--hero:#0f5c57}
-[hidden]{display:none!important}:focus-visible{outline:2px solid var(--acc);outline-offset:2px}h1,b{text-wrap:balance}.skip{position:absolute;left:-999px}.skip:focus{left:12px;top:12px;z-index:99;background:var(--card);padding:8px}*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{overflow-x:hidden}
-body{margin:0;font-family:"Archivo",system-ui,sans-serif;line-height:1.5;font-variant-numeric:tabular-nums;touch-action:manipulation;background:var(--bg);color:var(--fg);transition:background-color .3s,color .3s;padding-bottom:calc(20px + var(--sab))}
-button,select,input{font:inherit}
-.top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--bd);padding:calc(8px + var(--sat)) 12px 8px}
-.tr1{display:flex;align-items:center;gap:8px}.tr1 h1{font-size:19px;font-stretch:115%;font-weight:800;letter-spacing:-.01em;margin:0;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tr2{display:flex;gap:8px;margin-top:8px}
-.ib{min-width:44px;min-height:44px;border-radius:12px;border:1px solid var(--bd);background:var(--card);color:var(--fg);cursor:pointer;padding:0 12px;display:inline-flex;align-items:center;justify-content:center;gap:6px;position:relative}
-.ib.on{background:var(--acc);border-color:var(--acc);color:var(--acf)}
-.badge{background:var(--acc);color:#fff;border-radius:999px;font-size:11px;min-width:18px;height:18px;padding:0 5px;display:inline-flex;align-items:center;justify-content:center}.ib.on .badge{background:#fff;color:var(--acc)}
-input[type=search],select{background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:12px;padding:0 12px;min-height:44px;font-size:16px;min-width:0}
-input[type=search]{flex:1}select{max-width:42%}
-main{padding:12px;max-width:1400px;margin:auto}
-.sub{color:var(--mut);font-size:12px;margin:0 0 14px;max-width:70ch}
-.hero{margin:6px 0 14px}.eyebrow{font-size:12px;letter-spacing:.12em;color:var(--mut)}.hero h2{font-family:"Newsreader",Georgia,serif;font-weight:500;font-size:clamp(30px,6vw,46px);line-height:1.05;margin:4px 0 8px;letter-spacing:-.01em}
-.serif{font-family:"Newsreader",Georgia,serif;font-weight:500}
-.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px}.kpi{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px 14px}.kpi small{color:var(--mut);font-size:12px;display:block}.kpi b{font-family:"Newsreader",Georgia,serif;font-weight:500;font-size:34px;display:block;line-height:1.1}
-.kpi.hl{grid-column:1/-1;background:var(--hero);color:#fff;border-color:transparent;cursor:pointer}.kpi.hl small{color:rgba(255,255,255,.8)}
-.prio{display:grid;grid-template-columns:1fr;gap:12px;margin-bottom:18px}.pcard{background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:14px}.pcard h3{font-family:"Newsreader",Georgia,serif;font-weight:500;font-size:20px;margin:0;display:flex;justify-content:space-between;align-items:center;gap:8px}.pcard h3 span{font-family:inherit;font-size:12px;background:var(--bg);border:1px solid var(--bd);border-radius:999px;padding:2px 8px;white-space:nowrap}
-.pcard p{color:var(--mut);font-size:12px;margin:4px 0 8px}.pl{display:flex;justify-content:space-between;gap:8px;padding:8px 0;border-top:1px solid var(--bd);font-size:13px;color:inherit;text-decoration:none}.pl small{color:var(--mut)}.pl b{white-space:nowrap}.pcard .ib{margin-top:6px;width:100%}
-.sg{display:grid;grid-template-columns:1fr;gap:12px}.sg .pcard dl{display:grid;grid-template-columns:auto 1fr;gap:6px 12px;margin:6px 0 0;font-size:14px}.sg dt{color:var(--mut)}.sg dd{margin:0;font-variant-numeric:tabular-nums}.sg ul{margin:6px 0 0;padding-left:18px;font-size:14px;line-height:1.55}.pcard h3 .dot,.dot{padding:0!important;border:0!important;flex:none;display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:6px;vertical-align:middle}
-@media(min-width:760px){.sg{grid-template-columns:repeat(2,1fr)}}
-.tabs{display:inline-flex;gap:4px;background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:3px;margin:6px 0 10px}.tabs button{border:0;background:transparent;color:var(--fg);min-height:40px;padding:0 14px;border-radius:8px;cursor:pointer}.tabs button.on{background:var(--acc);color:var(--acf)}
-h2.sec{font-family:"Newsreader",Georgia,serif;font-weight:500;font-size:26px;margin:18px 0 2px}
-.stats{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;margin-bottom:8px;scrollbar-width:none}.stats::-webkit-scrollbar{display:none}
-.stat{flex:0 0 46%;scroll-snap-align:start;background:transparent;border-left:3px solid var(--bd);padding:4px 12px}.stat:nth-child(2){border-left-color:var(--acc)}.stat b{font-size:24px;font-stretch:80%;display:block}.stat small{color:var(--mut);font-size:12px}
-@keyframes up{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
-.active{display:flex;gap:6px;overflow-x:auto;padding:4px 0 8px;scrollbar-width:none}.active::-webkit-scrollbar{display:none}
-.chip{flex:0 0 auto;border:1px solid var(--bd);border-radius:6px;padding:0 12px;min-height:40px;font-size:14px;cursor:pointer;background:var(--card);color:var(--fg);transition:background-color .15s,color .15s}.chip.on{background:var(--acc);border-color:var(--acc);color:var(--acf)}.chip small{opacity:.7}
-.chip.rm{background:transparent;color:var(--acc);border-color:var(--acc)}
-.bar{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--mut);font-size:13px;margin:4px 0 10px}
-.views{display:none;gap:6px}
-.grid{display:grid;grid-template-columns:1fr;gap:10px}
-.item{content-visibility:auto;contain-intrinsic-size:auto 420px;background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:0 14px 14px;overflow:hidden;display:flex;flex-direction:column;gap:8px;animation:up .3s ease both}
-.item.best{border-color:var(--ok);box-shadow:0 0 0 1px var(--ok)}
-.ph{position:relative;margin:0 -14px 4px;aspect-ratio:4/3;background:var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden}.ph img{width:100%;height:100%;object-fit:cover}.noph{color:var(--mut);text-align:center;font-size:13px;opacity:.6}.ph.none{aspect-ratio:auto;height:64px;cursor:default}.ph.none .noph{font-size:12px}.clb{position:absolute;top:8px;left:8px;background:var(--acc);color:var(--acf);font-weight:800;padding:3px 8px;border-radius:4px;font-size:14px}.pn{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.6);color:#fff;font-size:12px;padding:2px 8px;border-radius:999px}
-.lb{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:60;display:none;align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:16px}.lb.open{display:flex}.lb img{max-width:100%;max-height:78vh;border-radius:10px}.lb .nav{display:flex;gap:10px}
-.vend{background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:0 10px;font-size:13px}.vend summary{min-height:44px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;cursor:pointer;list-style:none}.vend ul{margin:4px 0 6px;padding-left:18px;font-size:12px}.rk{font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px}.rk.ok{background:rgba(46,204,113,.15);color:var(--ok)}.rk.md{background:rgba(245,166,35,.15);color:var(--warn)}.rk.hi{background:color-mix(in srgb,var(--bad) 18%,transparent);color:var(--bad)}
-.price{font-size:30px;font-weight:800;font-stretch:80%;letter-spacing:-.01em;color:var(--acc);line-height:1.1}.price small{display:block;font-size:13px;color:var(--mut);font-weight:400;margin-top:2px}
-.badges{display:flex;flex-wrap:wrap;gap:5px}.bd{font-size:12px;padding:3px 8px;border-radius:8px;background:var(--bg);border:1px solid var(--bd)}.bd.g{color:var(--ok);border-color:var(--ok)}.bd.w{color:var(--warn);border-color:var(--warn)}
-.t{font-size:12px;color:var(--mut);word-break:break-word}
-a.go{display:flex;align-items:center;justify-content:center;min-height:48px;background:var(--acc);color:var(--acf);text-decoration:none;border-radius:12px;font-weight:600;font-size:15px;margin-top:4px}
-.more{display:block;width:100%;margin:14px 0;min-height:48px}
-.tw{overflow-x:auto;background:var(--card);border:1px solid var(--bd);border-radius:14px}
-table{width:100%;border-collapse:collapse;font-size:13px;min-width:800px}th,td{padding:8px;border-bottom:1px solid var(--bd);text-align:left;vertical-align:top}th{color:var(--mut)}tr.best td{background:rgba(46,204,113,.08)}a{color:var(--acc)}
-details.acc{background:var(--card);border:1px solid var(--bd);border-radius:14px;margin:12px 0}details.acc summary{min-height:48px;display:flex;align-items:center;padding:0 14px;cursor:pointer;font-weight:600;list-style:none}details.acc summary::after{content:"▾";margin-left:auto;transition:transform .2s}details.acc[open] summary::after{transform:rotate(180deg)}
-.charts{display:grid;grid-template-columns:1fr;gap:10px;padding:0 10px 10px}.charts div{height:240px;position:relative}
-.empty{text-align:center;color:var(--mut);padding:40px 10px}
-/* bottom sheet */
-.scrim{position:fixed;inset:0;background:rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .25s;z-index:40}.scrim.open{opacity:1;pointer-events:auto}
-.sheet{position:fixed;left:0;right:0;bottom:0;z-index:50;background:var(--card);border-radius:20px 20px 0 0;max-height:85vh;display:flex;flex-direction:column;transform:translateY(100%);transition:transform .28s cubic-bezier(.2,.8,.2,1);border-top:1px solid var(--bd)}
-.sheet.open{transform:none}.sh-h{display:flex;align-items:center;padding:10px 14px;border-bottom:1px solid var(--bd)}.sh-h b{flex:1}.grab{width:40px;height:5px;border-radius:3px;background:var(--bd);margin:8px auto 0}
-.sh-b{overflow-y:auto;padding:6px 14px 14px;overscroll-behavior:contain}.grp{margin:12px 0}.grp>div:first-child{font-size:12px;color:var(--mut);margin-bottom:6px;text-transform:uppercase;letter-spacing:.04em}.grp .chips{display:flex;flex-wrap:wrap;gap:6px}
-input[type=range]{width:100%;accent-color:var(--acc);height:32px}
-.sh-f{display:flex;gap:8px;padding:10px 14px calc(10px + var(--sab));border-top:1px solid var(--bd)}.sh-f .ib{flex:1}
-.fab{position:fixed;right:16px;bottom:calc(16px + var(--sab));z-index:30;border-radius:50%;width:48px;height:48px;opacity:0;transform:scale(.8);pointer-events:none;transition:all .2s;box-shadow:0 4px 14px rgba(0,0,0,.3)}.fab.show{opacity:1;transform:none;pointer-events:auto}
-@media(min-width:760px){
- .kpis{grid-template-columns:repeat(5,1fr)}.kpi.hl{grid-column:auto}.prio{grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
- .top{padding:12px 24px}.tr1 h1{font-size:20px}main{padding:16px 24px}
- .stats{overflow:visible}.stat{flex:1 1 0}
- .grid{grid-template-columns:repeat(auto-fill,minmax(270px,1fr))}
- .views{display:flex}.charts{grid-template-columns:repeat(3,1fr)}
- .sheet{left:auto;top:0;bottom:0;width:400px;max-height:none;border-radius:0;transform:translateX(100%);border-left:1px solid var(--bd)}.grab{display:none}
-}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+:root{--bg:#f7f6f2;--card:#fff;--fg:#1d2320;--mut:#6b736f;--bd:#e6e3db;--acc:#0f5c57;--ok:#2f8a5b;--warn:#c48a12;--bad:#c0432f;--sab:env(safe-area-inset-bottom)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{overflow-x:hidden}
+body{margin:0;font:15px/1.5 "Archivo",system-ui,sans-serif;background:var(--bg);color:var(--fg);font-variant-numeric:tabular-nums;touch-action:manipulation}
+button,select,input{font:inherit;color:inherit}a{color:var(--acc)}
+:focus-visible{outline:2px solid var(--acc);outline-offset:2px}[hidden]{display:none!important}
+.wrap{max-width:1180px;margin:auto;padding:0 16px}
+header{padding:18px 0 8px}header h1{font-size:15px;margin:0;font-weight:700}.line{color:var(--mut);font-size:13px}
+.tabs{display:flex;gap:18px;border-bottom:1px solid var(--bd);margin-top:10px}.tabs button{background:none;border:0;padding:10px 0;min-height:44px;cursor:pointer;color:var(--mut);border-bottom:2px solid transparent}.tabs button.on{color:var(--fg);border-color:var(--acc)}
+.bar{position:sticky;top:0;z-index:10;background:var(--bg);padding:10px 0;border-bottom:1px solid var(--bd)}
+.row{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;align-items:center}.row::-webkit-scrollbar{display:none}
+select,input[type=number],.btn{height:40px;border:1px solid var(--bd);background:var(--card);border-radius:8px;padding:0 10px;font-size:14px;flex:none}
+select{padding-right:6px}input[type=number]{width:96px}
+.btn{cursor:pointer;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}.btn.on{border-color:var(--acc);color:var(--acc)}.btn.pri{background:var(--acc);border-color:var(--acc);color:#fff}
+.n{display:inline-block;min-width:18px;height:18px;line-height:18px;text-align:center;border-radius:9px;background:var(--acc);color:#fff;font-size:11px}
+.presets{margin-top:8px}.presets .btn{height:34px;font-size:13px;border-radius:17px}
+.meta{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:14px 0 10px;font-size:14px;color:var(--mut)}
+.best{background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:10px 14px;font-size:14px;margin-top:14px}.best b{color:var(--acc)}
+.grid{display:grid;grid-template-columns:1fr;gap:14px}
+@media(min-width:620px){.grid{grid-template-columns:repeat(2,1fr)}}@media(min-width:960px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:12px;overflow:hidden;display:flex;flex-direction:column}
+.ph{flex:none;position:relative;overflow:hidden;aspect-ratio:4/3;background:#eeece6;display:flex;align-items:center;justify-content:center;color:var(--mut);font-size:13px}.ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.cb{padding:14px;display:flex;flex-direction:column;gap:6px;flex:1}
+.nm{font-weight:600;line-height:1.3}.pr{font-size:24px;font-weight:700}.pr small{font-size:14px;font-weight:400;color:var(--mut);margin-left:6px}
+.sp,.sl{font-size:14px;color:var(--mut)}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px;vertical-align:1px}
+.ft{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-top:auto;padding-top:8px}
+.chip{font-size:14px;border:1px solid var(--bd);border-radius:6px;padding:2px 8px}.chip.ok{border-color:var(--ok);color:var(--ok)}
+a.open{background:var(--acc);color:#fff;text-decoration:none;border-radius:8px;padding:0 18px;height:40px;display:inline-flex;align-items:center}
+details.more{font-size:14px;color:var(--mut)}details.more summary{cursor:pointer;min-height:32px;display:flex;align-items:center}details.more ul{margin:4px 0;padding-left:18px}
+.morebtn{display:block;margin:18px auto;width:100%;max-width:360px;justify-content:center}
+.empty{text-align:center;color:var(--mut);padding:48px 0}
+.scrim{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:30}
+.sheet{position:fixed;left:0;right:0;bottom:0;z-index:40;background:var(--card);border-radius:14px 14px 0 0;padding:16px 16px calc(16px + var(--sab));max-height:80vh;overflow:auto}
+@media(min-width:760px){.sheet{left:auto;top:0;width:380px;border-radius:0}}
+.sheet h2{font-size:15px;margin:0 0 10px}.fg{margin:14px 0}.fg label{display:block;font-size:14px;color:var(--mut);margin-bottom:6px}.fg .row{flex-wrap:wrap}
+.chk{display:flex;align-items:center;gap:10px;min-height:44px;font-size:15px}.chk input{width:20px;height:20px;accent-color:var(--acc)}
+.sec{background:var(--card);border:1px solid var(--bd);border-radius:12px;padding:16px;margin:14px 0}.sec h2{font-size:15px;margin:0 0 8px}
+.sec dl{display:grid;grid-template-columns:auto 1fr;gap:4px 14px;margin:0;font-size:14px}.sec dt{color:var(--mut)}.sec dd{margin:0}
+.sec ul{margin:0;padding-left:18px;font-size:14px}table{width:100%;border-collapse:collapse;font-size:14px}td,th{padding:6px;border-bottom:1px solid var(--bd);text-align:left}.tw{overflow-x:auto}
+@media(prefers-reduced-motion:no-preference){.card{transition:border-color .15s}.card:hover{border-color:#cfcabd}}
 </style></head><body>
-<a class="skip" href="#list">Pular para os anúncios</a><div class="top"><div class="tr1"><h1>Memória DDR5 no Goofish</h1><button class="ib" id="theme" aria-label="Alternar tema claro/escuro"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></svg></button></div>
-<div class="tr2"><input type="search" id="q" placeholder="Buscar modelo, cidade…" name="q" autocomplete="off" spellcheck="false" enterkeyhint="search" aria-label="Buscar">
-<select id="sort" aria-label="Ordenar"><option value="preco">Menor preço</option><option value="-preco">Maior preço</option><option value="pgb">Menor R$/GB</option><option value="-visto">Mais recente</option><option value="-vel">Mais rápida</option><option value="cl">Menor CL</option><option value="-score">Maior score</option><option value="-lucro">Maior lucro</option></select>
-<button class="ib" id="openF" aria-label="Filtros"><span class="lbl">Filtros</span> <span class="badge" id="fcount" hidden>0</span></button></div></div>
-<main>
-<div class="hero"><div class="eyebrow">Goofish, verificado ao vivo</div><h2>DDR5 para revenda</h2><p class="sub" id="meta">Carregando…</p></div>
-<div class="kpis" id="cards"></div>
-<h2 class="sec">Prioridades</h2><p class="sub">O que vale olhar primeiro. Toque em “Ver no catálogo” para filtrar.</p>
-<div class="prio" id="prio"></div>
-<div class="tabs" role="tablist"><button id="tabA" class="on" role="tab">Anúncios</button><button id="tabD" role="tab">Descartados</button><button id="tabS" role="tab">Status</button></div>
-<div class="active" id="active"></div>
-<div class="bar"><span id="count" aria-live="polite"></span><div class="views"><button class="ib" id="vCards">▦ Cards</button><button class="ib" id="vTable">☰ Tabela</button></div></div>
-<div id="list"></div><div id="desc" hidden></div><div id="stat" hidden></div>
-<details class="acc" id="accCharts"><summary>Gráficos de preço</summary><div class="charts"><div><canvas id="c1"></canvas></div><div><canvas id="c2"></canvas></div><div><canvas id="c3"></canvas></div></div></details>
-</main>
-<div class="scrim" id="scrim"></div>
-<div class="sheet" id="sheet" role="dialog" aria-label="Filtros"><div class="grab"></div>
-<div class="sh-h"><b>Filtros</b><button class="ib" id="closeF" aria-label="Fechar">✕</button></div>
-<div class="sh-b"><label class="grp" style="display:flex;gap:10px;align-items:center;min-height:44px"><input type="checkbox" id="nv" style="width:22px;height:22px;accent-color:var(--acc)"> Mostrar também anúncios não verificados</label><div id="chips"></div><div class="grp"><div>Preço máximo: <b id="pmaxv"></b></div><input type="range" id="pmax"></div></div>
-<div class="sh-f"><button class="ib" id="clear">Limpar</button><button class="ib on" id="apply">Ver <span id="applyN"></span> resultados</button></div></div>
-<div class="lb" id="lb"><img id="lbi" alt=""><div class="nav"><button class="ib" id="lbp">‹</button><span id="lbn" style="color:#fff;align-self:center"></span><button class="ib" id="lbn2">›</button><button class="ib" id="lbc">✕</button></div></div>
-<button class="ib fab" id="fab" aria-label="Voltar ao topo">↑</button>
+<div class="wrap">
+<header><h1>DDR5 no Goofish</h1><div class="line" id="line">Carregando…</div>
+<nav class="tabs" role="tablist"><button id="tC" class="on" role="tab">Catálogo</button><button id="tS" role="tab">Status</button></nav></header>
+</div>
+<section id="vC">
+<div class="bar"><div class="wrap">
+ <div class="row" id="fbar">
+  <select id="fMarca" aria-label="Marca"><option value="">Marca</option></select>
+  <select id="fFreq" aria-label="Frequência mínima"><option value="0">Frequência</option><option value="6000">6000+</option><option value="6400">6400+</option><option value="6800">6800+</option></select>
+  <select id="fRgb" aria-label="RGB"><option value="">RGB</option><option value="sim">Com RGB</option><option value="não">Sem RGB</option></select>
+  <select id="fCor" aria-label="Cor"><option value="">Cor</option><option value="branco">Branco</option><option value="preto">Preto</option></select>
+  <select id="fPmax" aria-label="Preço máximo"><option value="">Preço máx.</option><option value="2300">até ¥2.300</option><option value="2500">até ¥2.500</option><option value="2700">até ¥2.700</option></select>
+  <select id="fSort" aria-label="Ordenar"><option value="preco">Menor preço</option><option value="lucro">Maior lucro</option><option value="margem">Maior margem</option><option value="cl">Menor CL</option></select>
+  <button class="btn" id="bMais">Mais filtros <span class="n" id="nMais" hidden>0</span></button>
+  <button class="btn" id="bClear">Limpar</button>
+ </div>
+ <div class="row presets" id="presets"></div>
+</div></div>
+<div class="wrap">
+ <div class="best" id="best" hidden></div>
+ <div class="meta"><span id="count" aria-live="polite"></span></div>
+ <div class="grid" id="grid"></div>
+ <button class="btn morebtn" id="more" hidden></button>
+</div>
+</section>
+<section id="vS" hidden><div class="wrap" id="status"></div></section>
+<div class="scrim" id="scrim" hidden></div>
+<div class="sheet" id="sheet" role="dialog" aria-label="Mais filtros" hidden>
+ <h2>Mais filtros</h2>
+ <div class="fg"><label>Margem de lucro (%)</label><div class="row"><input type="number" id="fMmin" placeholder="mín." inputmode="numeric" aria-label="Margem mínima"><input type="number" id="fMmax" placeholder="máx." inputmode="numeric" aria-label="Margem máxima"></div></div>
+ <div class="fg"><label>CL máximo</label><div class="row"><select id="fCl"><option value="">Qualquer</option><option value="30">CL30</option><option value="32">até CL32</option><option value="36">até CL36</option><option value="40">até CL40</option></select></div></div>
+ <div class="fg"><label>Caixa</label><div class="row"><select id="fCaixa"><option value="">Qualquer</option><option value="com caixa">Com caixa</option><option value="sem caixa">Sem caixa</option></select></div></div>
+ <div class="fg"><label>Risco do vendedor</label><div class="row"><select id="fRisco"><option value="">Qualquer</option><option value="confiável">Só confiável</option><option value="nao-alto">Sem alto risco</option></select></div></div>
+ <label class="chk"><input type="checkbox" id="fEnvio"> Só envio confirmado</label>
+ <label class="chk"><input type="checkbox" id="fNv"> Incluir não verificados</label>
+ <div class="row" style="margin-top:12px"><button class="btn pri" id="bOk">Ver resultados</button><button class="btn" id="bClear2">Limpar</button></div>
+</div>
 <script>
-const $=s=>document.querySelector(s),brl=n=>n==null?"—":n.toLocaleString("pt-BR",{style:"currency",currency:"BRL",maximumFractionDigits:0}),cny=n=>n==null?"—":"¥"+n.toLocaleString("pt-BR");
+const $=s=>document.querySelector(s),cny=n=>n==null?"—":"¥"+Math.round(n).toLocaleString("pt-BR"),brl=n=>n==null?"—":"R$ "+Math.round(n).toLocaleString("pt-BR");
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-const GROUPS=[["marca","Marca"],["capacidade_gb","Capacidade",v=>v&&v!="null"?v+"GB":"?"],["kit","Kit"],["velocidade","Velocidade",v=>v&&v!="null"?v+" MHz":"?"],["cl","Latência (CL)",v=>v&&v!="null"?"CL"+v:"?"],["caixa_n","Caixa"],["rgb","RGB"],["envio","Envio"],["vend_risco","Risco do vendedor"],["status","Status"]];
-const PAGE=20,isMobile=()=>innerWidth<760;
-let D=[],META={},PMAX=0,S={f:{},q:"",sort:"preco",view:"cards",pmax:null,nv:false},shown=PAGE,charts={},bestIds=new Set();
-const saved=localStorage.getItem("theme");if(saved)document.documentElement.dataset.theme=saved;
-$("#theme").onclick=()=>{const t=document.documentElement.dataset.theme=="dark"?"light":"dark";document.documentElement.dataset.theme=t;localStorage.setItem("theme",t);if($("#accCharts").open)drawCharts()};
-function readHash(){try{const h=decodeURIComponent(location.hash.slice(1));if(h)Object.assign(S,JSON.parse(h))}catch(e){}}
-function writeHash(){history.replaceState(null,"","#"+encodeURIComponent(JSON.stringify(S)))}
-function countUp(el,to,fmt){const t0=performance.now();(function f(t){const p=Math.min(1,(t-t0)/700),e=1-Math.pow(1-p,3);el.textContent=fmt(to*e);if(p<1)requestAnimationFrame(f)})(t0)}
-fetch("data.json?"+Date.now()).then(r=>r.json()).then(d=>{META=d;D=d.items;init()}).catch(e=>{$("#meta").textContent="Falha ao carregar os dados: "+e});
-const fmtOf=k=>(GROUPS.find(g=>g[0]==k)||[])[2]||(v=>v);
-function openSheet(o){$("#sheet").classList.toggle("open",o);$("#scrim").classList.toggle("open",o);document.body.style.overflow=o?"hidden":""}
-function init(){
- $("#meta").textContent=`Atualizado em ${META.gerado_em}. Mostra só anúncios que enviam e ainda estão à venda; ocultamos ${META.removidos_vendidos||0} vendidos, ${META.removidos_so_retirada||0} só para retirada e ${META.removidos_bloqueados||0} de vendedores bloqueados. Valores em reais convertidos a ¥1 = R$ ${META.taxa_cny_brl.toFixed(4)}, sem imposto nem frete.`;
- const g={};D.forEach(i=>{if(i.status!="à venda"||!i.preco_yuan)return;const k=i.velocidade+"|"+i.kit;if(!g[k]||i.preco_yuan<g[k].preco_yuan)g[k]=i});Object.values(g).forEach(i=>bestIds.add(i.id));
- const pr=D.map(i=>i.preco_brl).filter(Boolean);PMAX=Math.ceil(Math.max(...pr)/10)*10;
- Object.assign($("#pmax"),{min:Math.floor(Math.min(...pr)/10)*10,max:PMAX,step:10});
- readHash();if(!S.pmax)S.pmax=PMAX;if(isMobile()&&!location.hash)S.view="cards";
- $("#chips").innerHTML=GROUPS.map(([k,l,fm])=>{const vals=[...new Set(D.map(i=>String(i[k])))].sort((a,b)=>isNaN(a)||isNaN(b)?a.localeCompare(b):a-b);return `<div class="grp"><div>${l}</div><div class="chips">${vals.map(v=>`<button class="chip" data-k="${k}" data-v="${esc(v)}">${esc(fm?fm(v):v)} <small>${D.filter(i=>String(i[k])==v).length}</small></button>`).join("")}</div></div>`}).join("");
- $("#chips").onclick=e=>{const c=e.target.closest(".chip");if(!c)return;toggle(c.dataset.k,c.dataset.v)};
- $("#active").onclick=e=>{const c=e.target.closest(".chip");if(!c)return;if(c.dataset.k=="prio")S.prio=null;else if(c.dataset.k=="nv")S.nv=false;else if(c.dataset.k=="pmax")S.pmax=PMAX;else if(c.dataset.k=="q")S.q="";else toggle(c.dataset.k,c.dataset.v);render()};
- $("#nv").onchange=e=>{S.nv=e.target.checked;shown=PAGE;render(true);drawPrio()};
- let qt;$("#q").oninput=e=>{clearTimeout(qt);qt=setTimeout(()=>{S.q=e.target.value;shown=PAGE;render()},150)};
- $("#sort").onchange=e=>{S.sort=e.target.value;shown=PAGE;render()};
- $("#pmax").oninput=e=>{S.pmax=+e.target.value;render(true)};
- $("#vCards").onclick=()=>{S.view="cards";render()};$("#vTable").onclick=()=>{S.view="table";render()};
- $("#openF").onclick=()=>openSheet(true);$("#closeF").onclick=$("#scrim").onclick=$("#apply").onclick=()=>{openSheet(false);render()};
- $("#clear").onclick=()=>{S={f:{},q:"",sort:S.sort,view:S.view,pmax:PMAX,nv:false,prio:null};shown=PAGE;render(true)};
- addEventListener("keydown",e=>{if(e.key=="Escape")openSheet(false)});
- window.onhashchange=()=>{readHash();render()};
- const fab=$("#fab");addEventListener("scroll",()=>fab.classList.toggle("show",scrollY>600),{passive:true});fab.onclick=()=>scrollTo({top:0,behavior:"smooth"});
- $("#accCharts").ontoggle=()=>{if($("#accCharts").open)drawCharts()};
- const ps=D.map(i=>i.preco_yuan).filter(x=>x).sort((a,b)=>a-b),r=META.taxa_cny_brl,avg=ps.reduce((a,b)=>a+b,0)/ps.length,med=META.mediana;
- const V=D.filter(i=>i.verificado),best=V.filter(i=>i.vend_risco!="alto risco"&&i.status=="à venda").sort((a,b)=>a.preco_yuan-b.preco_yuan)[0];
- const K=[["Verificados",V.length,`de ${D.length} anúncios, últimas 12 h`],["À venda",D.filter(i=>i.status=="à venda").length,"no catálogo publicado"],["Descartados",(META.descartados||[]).length,"vendidos, por pente, duplicados…"],["Mediana",brl(med*r),cny(med)]];
- $("#cards").innerHTML=K.map(k=>`<div class="kpi"><small>${k[0]}</small><b>${k[1]}</b><small>${k[2]}</small></div>`).join("")+(best?`<div class="kpi hl" id="bestk" role="button" tabindex="0"><small>Melhor oferta verificada</small><b>${brl(best.preco_brl)}</b><small>${esc(nome(best))}, ${cny(best.preco_yuan)}</small></div>`:"");
- if(best){const go=()=>{S.q=String(best.id);shown=PAGE;render();$("#list").scrollIntoView({behavior:"smooth"})};$("#bestk").onclick=go;$("#bestk").onkeydown=e=>{if(e.key=="Enter")go()}}
- drawPrio();
- $("#tabA").onclick=()=>tab(false);$("#tabD").onclick=()=>tab(true);$("#tabS").onclick=()=>tab("s");
- const st=[["Anúncios",D.length,n=>Math.round(n),`${D.filter(i=>i.status=="à venda").length} à venda`],["Mais barato",ps[0]*r,brl,cny(ps[0])],["Mediana",med*r,brl,cny(med)],["Média",avg*r,brl,cny(Math.round(avg))],["Mais caro",ps.at(-1)*r,brl,cny(ps.at(-1))]];
- if(0)$("#cards").innerHTML=st.map((s,i)=>`<div class="stat" style="animation-delay:${i*.06}s"><small>${s[0]}</small><b id="st${i}">0</b><small>${s[3]}</small></div>`).join("");
- render();
-}
-let LB=[],LBi=0;function openLb(f,n){LB=f;LBi=n;$("#lbi").src=f[n];$("#lbn").textContent=(n+1)+"/"+f.length;$("#lb").classList.add("open")}
-document.addEventListener("click",e=>{if(e.target.id=="lbc"||e.target.id=="lb")$("#lb").classList.remove("open");if(e.target.id=="lbp")openLb(LB,(LBi-1+LB.length)%LB.length);if(e.target.id=="lbn2")openLb(LB,(LBi+1)%LB.length)});
-const PRIO=[
- ["Vengeance RGB branco","Corsair, RGB e branco (白, white, 吹雪), 6000 ou 6400.",i=>i.marca=="Corsair"&&/白|white|branco|吹雪/i.test(i.modelo+" "+(i.titulo||""))&&i.rgb!="não"],
- ["Corsair com caixa","Corsair com caixa confirmada no texto ou na foto.",i=>i.marca=="Corsair"&&i.caixa_n=="com caixa"],
- ["CL30 ou CL32","Latência baixa, qualquer marca.",i=>i.cl&&i.cl<=32],
- ["7200 MHz ou mais","Kits mais rápidos.",i=>(i.velocidade||0)>=6800],
- ["Vendedor confiável e barato","Risco baixo e preço abaixo da mediana.",i=>i.vend_risco=="confiável"&&i.preco_yuan<=META.mediana]];
-function drawPrio(){$("#prio").innerHTML=PRIO.map(([t,d,f],n)=>{const a=D.filter(i=>f(i)&&i.status=="à venda"&&(S.nv||i.verificado)).sort((x,y)=>x.preco_yuan-y.preco_yuan);
- return `<div class="pcard"><h3>${esc(t)}<span>${a.length} à venda</span></h3><p>${esc(d)}</p>${a.length?a.slice(0,4).map(i=>`<a class="pl" href="${esc(i.url)}" target="_blank" rel="noopener"><span>${esc(nome(i))}<br><small>${i.verificado?"verificado":"não verificado"}${i.score!=null?", score "+i.score:""}</small></span><b>${cny(i.preco_yuan)}<br><small>${brl(i.preco_brl)}</small></b></a>`).join("")+`<button class="ib" data-p="${n}">Ver ${a.length} no catálogo</button>`:`<p>Nenhum anúncio ${S.nv?"":"verificado "}nesta categoria agora.</p>`}</div>`}).join("");
- document.querySelectorAll("#prio [data-p]").forEach(b=>b.onclick=()=>{S.prio=+b.dataset.p;shown=PAGE;tab(false);render();$("#list").scrollIntoView({behavior:"smooth"})})}
-function tab(d){$("#tabA").classList.toggle("on",!d);$("#tabD").classList.toggle("on",d===true);$("#tabS").classList.toggle("on",d==="s");$("#list").hidden=!!d;$("#desc").hidden=d!==true;$("#stat").hidden=d!=="s";
- if(d==="s"){drawStatus();return}
- if(d){const A=META.descartados||[];$("#desc").innerHTML=`<div class="tw"><table><thead><tr><th>Anúncio</th><th>¥</th><th>Motivo</th><th></th></tr></thead><tbody>${A.map(a=>`<tr><td>${esc(a.titulo)}<div class="t">${esc(a.id)}</div></td><td>${cny(a.preco)}</td><td>${esc(a.motivo)}</td><td>${a.url?`<a href="${esc(a.url)}" target="_blank" rel="noopener">Abrir</a>`:""}</td></tr>`).join("")}</tbody></table></div>`}}
-function drawStatus(){const s=META.status||{},v=s.verificador||{},f=s.fotos||{},t=s.traducoes||{},api=s.api_flatt||{},sd="sem dados";const x=a=>a==null||a===""?sd:esc(a);
- const dot=c=>`<span class="dot" style="background:${c}"></span>`;const vc=v.estado=="verificando"?"var(--ok)":v.estado&&v.estado.startsWith("pausado")?"var(--warn)":"var(--bad)";
- const dm=Object.entries(s.descartes_por_motivo||{}).sort((a,b)=>b[1]-a[1]);
- $("#stat").innerHTML=`<div class="sg">
- <div class="pcard"><h3>Atualizações</h3><dl><dt>Dados do painel</dt><dd>${x(META.gerado_em)}</dd><dt>Última publicação</dt><dd>${x(s.ultimo_publish)}</dd><dt>Catálogo do bot (rodada 15 min)</dt><dd>${x(s.catalogo_hermes_workspace)}</dd><dt>Catálogo próprio do Hermes</dt><dd>${x(s.catalogo_hermes_proprio)}</dd><dt>Câmbio</dt><dd>¥1 = R$ ${META.taxa_cny_brl?META.taxa_cny_brl.toFixed(4):sd}<br><small class="t">${x(META.taxa_fonte)}</small></dd></dl><p>Horários em Brasília.</p></div>
- <div class="pcard"><h3>Verificação ao vivo<span>${dot(vc)}${x(v.estado)}</span></h3><dl><dt>Retoma em</dt><dd>${v.retoma_em&&v.estado&&v.estado.startsWith("pausado")?esc(v.retoma_em):"—"}</dd><dt>Verificados na última hora</dt><dd>${x(v.verificados_ultima_hora)}</dd><dt>Bloqueios anti-bot na última hora</dt><dd>${x(v.muros_ultima_hora)}</dd><dt>Último bloqueio</dt><dd>${x(v.ultimo_muro)}</dd><dt>Verificados em 12 h</dt><dd>${v.total!=null?v.verificados_12h+" de "+v.total:sd}</dd></dl><p>Quando o Goofish mostra o muro anti-bot, o verificador para e espera de 6 a 30 min. Não tentamos contornar.</p></div>
- <div class="pcard"><h3>Fotos e traduções</h3><dl><dt>Fotos analisadas</dt><dd>${x(f.ok)} ok, ${x(f.falhas)} com falha</dd><dt>Anúncios com análise de foto</dt><dd>${x(f.anuncios_com_analise)}</dd><dt>Títulos traduzidos</dt><dd>${x(t.ok)}</dd><dt>API Flatt, último sucesso</dt><dd>${x(api.ultimo_sucesso)}${api.ultimo_sucesso_tipo?" ("+esc(api.ultimo_sucesso_tipo)+")":""}</dd><dt>API Flatt, último erro</dt><dd>${x(api.ultimo_erro)}${api.ultimo_erro_msg?`<br><small class="t">${esc(api.ultimo_erro_msg)}</small>`:""}</dd></dl></div>
- <div class="pcard"><h3>Descartados por motivo</h3>${dm.length?`<dl>${dm.map(([k,n])=>`<dt>${esc(k)}</dt><dd>${n}</dd>`).join("")}</dl>`:`<p>${sd}</p>`}<p>Lista completa na aba Descartados.</p></div>
- <div class="pcard"><h3>Rotinas</h3><ul><li>Painel recalculado a cada 3 min.</li><li>Publicação no GitHub Pages a cada 10 min, só se algo mudou.</li><li>Verificação contínua, anúncio por anúncio, com pausa quando há bloqueio.</li><li>Fotos e traduções: tentativa a cada 10 min.</li><li>Bot Hermes: varredura de hora em hora (:14) e relatório às 07h.</li><li>Alerta a cada 20 min de kits RGB até ¥2.600: roda fora desta máquina, sem dados aqui.</li></ul></div>
- <div class="pcard"><h3>Fontes</h3><ul><li>Páginas dos anúncios no Goofish, abertas ao vivo, sem login: status, preço, vendedor, fotos.</li><li>Perfil do vendedor no Goofish, uma vez a cada 7 dias.</li><li>Catálogo do bot Hermes: modelo, CL, caixa, observações, score e lucro estimado.</li><li>Câmbio: open.er-api.com.</li></ul></div>
- <div class="pcard"><h3>O que entra no painel</h3><ul><li>Só kits de 2 pentes (2x16 = 32GB; 2x24 e 2x32 também).</li><li>Só quem envia; anúncios só para retirada saem.</li><li>Nada vendido ou removido.</li><li>Nada de vendedores bloqueados.</li><li>Preço entre ¥1.200 e ¥5.000, sem preço por pente nem “preço a combinar”.</li><li>Por padrão, só anúncios verificados nas últimas 12 h. Os outros aparecem se você ligar “mostrar não verificados” nos filtros.</li></ul></div>
- <div class="pcard"><h3>Como ler o painel</h3><ul><li><b>Verificado há X min</b>: abrimos a página do anúncio nesse horário e ele estava à venda.</li><li><b>Não verificado</b>: dado só do catálogo do bot, pode estar desatualizado.</li><li><b>Risco do vendedor</b>: confiável, atenção ou alto risco. Toque para ver os motivos (conta nova, poucas vendas, muitos anúncios recentes, preço muito baixo…).</li><li><b>CL pela foto</b>: lido na etiqueta da foto. Sem esse selo, o dado veio do texto.</li><li><b>Caixa / RGB desconhecido</b>: nem o texto nem a foto deixam claro.</li><li><b>Mais barato em…</b>: menor preço entre os anúncios à venda com a mesma velocidade e kit.</li></ul></div>
- </div>`}
-function toggle(k,v){const a=S.f[k]=S.f[k]||[];const ix=a.indexOf(v);ix<0?a.push(v):a.splice(ix,1);if(!a.length)delete S.f[k];shown=PAGE;render(true)}
-function filtered(){const q=S.q.toLowerCase();return D.filter(i=>(S.nv||i.verificado)&&(S.prio==null||PRIO[S.prio][2](i))&&Object.entries(S.f).every(([k,vs])=>vs.includes(String(i[k])))&&(!q||JSON.stringify(i).toLowerCase().includes(q))&&(i.preco_brl==null||i.preco_brl<=S.pmax))}
-function sorted(a){const s=S.sort,d=s[0]=="-"?-1:1,k={preco:"preco_yuan",pgb:"preco_por_gb_brl",visto:"visto_em",vel:"velocidade",cl:"cl",score:"score",lucro:"lucro_brl"}[s.replace("-","")];return a.slice().sort((x,y)=>{let p=x[k],q=y[k];if(k=="cl"){p=parseFloat(p)||999;q=parseFloat(q)||999}if(p==null)return 1;if(q==null)return-1;return(p>q?1:p<q?-1:0)*d})}
-function ago(t){if(!t)return null;const m=Math.round((Date.now()-new Date(t.replace(' ','T')+':00-03:00'))/60000);return m<60?m+' min':m<1440?Math.round(m/60)+' h':Math.round(m/1440)+' d'}
-function badges(i){return[i.kit!="desconhecido"?i.kit:null,i.capacidade_gb?i.capacidade_gb+"GB":null,i.velocidade?i.velocidade+" MHz":null,i.cl?"CL"+i.cl:null,i.estado].filter(Boolean).map(b=>`<span class="bd">${esc(b)}</span>`).join("")+`<span class="bd ${i.caixa_n=="com caixa"?"g":""}">Caixa: ${esc(i.caixa_n)}</span><span class="bd">RGB: ${esc(i.rgb)}</span>`+(i.envio=="sim"?`<span class="bd g">Envia</span>`:`<span class="bd w">Envio não confirmado</span>`)+(i.verificado?`<span class="bd g">Verificado há ${ago(i.verificado_em)}</span>`:`<span class="bd w">Não verificado${i.verificado_em?" (há "+ago(i.verificado_em)+")":""}</span>`)+(i.cl_fonte=="foto"?`<span class="bd">CL pela foto</span>`:"")+(i.part_number?`<span class="bd">${esc(i.part_number)}</span>`:"")+(i.condicao_foto?`<span class="bd">Foto: ${esc(i.condicao_foto)}</span>`:"")+(i.status!="à venda"?`<span class="bd w">${esc(i.status)}</span>`:"")+(bestIds.has(i.id)?`<span class="bd g">Mais barato em ${i.velocidade} MHz${i.kit!="desconhecido"?" "+i.kit:""}</span>`:"")}
-const nome=i=>i.titulo_pt||i.label;
-function card(i,n){return `<div class="item ${bestIds.has(i.id)?"best":""}" >
- <div class="ph ${i.fotos&&i.fotos.length?"":"none"}" data-id="${esc(i.id)}">${i.fotos&&i.fotos.length?`<img loading="lazy" width="400" height="300" src="${esc(i.fotos[0])}" alt="">${i.fotos.length>1?`<span class="pn">${i.fotos.length} fotos</span>`:""}`:`<div class="noph">Sem foto</div>`}${i.cl?`<span class="clb">CL${i.cl}</span>`:""}</div>
- <div class="price">${brl(i.preco_brl)}<small>${cny(i.preco_yuan)}${i.preco_por_gb_brl?", "+brl(i.preco_por_gb_brl)+"/GB":""}${i.lucro_brl!=null?`. Lucro estimado ${brl(i.lucro_brl)} (${i.margem_pct}%)`:""}${i.score!=null?`. Score ${i.score}`:""}</small></div>
- <div><b>${esc(nome(i))}</b><div class="t">${esc(i.label)}${i.titulo?" · "+esc(i.titulo):""}</div></div><div class="badges">${badges(i)}</div>
- <details class="vend"><summary><span class="rk ${i.vend_risco=="confiável"?"ok":i.vend_risco=="atenção"?"md":"hi"}">${esc(i.vend_risco)}</span> ${esc(i.vend_nome||"vendedor ?")} · ${i.vend_vendas!=null?i.vend_vendas.toLocaleString("pt-BR")+" vendas":"vendas ?"}${i.vend_rating!=null?" · "+i.vend_rating+"%":""}</summary><ul>${(i.vend_motivos||[]).map(m=>`<li>${esc(m)}</li>`).join("")}</ul><div class="t">${i.vend_idade_dias!=null?"No Goofish há ~"+(i.vend_idade_dias>=365?Math.round(i.vend_idade_dias/365)+" anos":i.vend_idade_dias+" dias")+". ":""}${i.vend_local?"Local: "+esc(i.vend_local)+". ":""}${i.vend_perfil?`Perfil: ${i.vend_perfil.em_venda??"?"} à venda, ${i.vend_perfil.vendidos??"?"} vendidos, ${i.vend_perfil.avaliacoes??"?"} avaliações${i.vend_perfil.flags&&i.vend_perfil.flags.length?", "+esc(i.vend_perfil.flags.join(", ")):""}. `:""}Fonte: ${esc(i.vend_fonte)}.</div>${i.vend_url?`<a href="${esc(i.vend_url)}" target="_blank" rel="noopener">Ver perfil</a>`:""}</details>
- <div class="t">${esc(i.frete_local||"Local não informado")}. Visto em ${esc(i.visto_em)}</div>
- <a class="go" href="${esc(i.url)}" target="_blank" rel="noopener">Abrir no Goofish</a></div>`}
-function render(soft){
- writeHash();$("#nv").checked=!!S.nv;if($("#q").value!==S.q)$("#q").value=S.q;$("#sort").value=S.sort;$("#pmax").value=S.pmax;$("#pmaxv").textContent=brl(+S.pmax);
- document.querySelectorAll("#chips .chip").forEach(c=>c.classList.toggle("on",(S.f[c.dataset.k]||[]).includes(c.dataset.v)));
- const act=Object.entries(S.f).flatMap(([k,vs])=>vs.map(v=>[k,v,fmtOf(k)(v)]));if(S.pmax<PMAX)act.push(["pmax","","até "+brl(+S.pmax)]);if(S.q)act.push(["q","","“"+S.q+"”"]);if(S.nv)act.push(["nv","","inclui não verificados"]);if(S.prio!=null&&PRIO[S.prio])act.push(["prio","",PRIO[S.prio][0]]);
- $("#active").innerHTML=act.map(([k,v,l])=>`<button class="chip rm" data-k="${k}" data-v="${esc(v)}" aria-label="Remover filtro">${esc(l)} ✕</button>`).join("");
- const n=act.length;$("#fcount").hidden=!n;$("#fcount").textContent=n;$("#openF").classList.toggle("on",n>0);
- const view=isMobile()?"cards":S.view;$("#vCards").classList.toggle("on",view=="cards");$("#vTable").classList.toggle("on",view=="table");
- const a=sorted(filtered());$("#count").textContent=`${a.length} anúncios${S.nv?"":" verificados"} (${D.filter(i=>i.verificado).length} de ${D.length} verificados nas últimas 12 h)`;$("#applyN").textContent=a.length;
- if(soft&&$("#sheet").classList.contains("open"))return;
- if(!a.length)$("#list").innerHTML=`<div class="empty">${S.nv?"Nada bate com esses filtros.":"Nenhum anúncio verificado bate com esses filtros. A verificação passa por todos os anúncios aos poucos; ative “mostrar não verificados” nos filtros para ver o resto."}<br><br><button class="ib" onclick="$('#clear').click()">Limpar filtros</button></div>`;
- else if(view=="cards")$("#list").innerHTML=`<div class="grid">${a.slice(0,shown).map(card).join("")}</div>`+(a.length>shown?`<button class="ib more" id="more">Carregar mais (${a.length-shown} restantes)</button>`:"");
- else $("#list").innerHTML=`<div class="tw"><table><thead><tr><th>Preço</th><th>¥</th><th>R$/GB</th><th>Anúncio</th><th>Specs</th><th>Local</th><th>Status</th><th>Visto</th><th></th></tr></thead><tbody>${a.map(i=>`<tr class="${bestIds.has(i.id)?"best":""}"><td><b>${brl(i.preco_brl)}</b></td><td>${cny(i.preco_yuan)}</td><td>${brl(i.preco_por_gb_brl)}</td><td>${esc(nome(i))}<div class="t">${esc(i.titulo)}</div></td><td><b>${i.cl?"CL"+i.cl:"CL?"}</b> · ${[i.kit,i.velocidade,"caixa: "+i.caixa_n,"RGB: "+i.rgb,"envio: "+i.envio].join(" · ")}</td><td class="t">${esc(i.frete_local)}<br>${esc(i.vend_nome||"?")} · <b>${esc(i.vend_risco)}</b></td><td>${esc(i.status)}</td><td class="t">${esc(i.visto_em)}</td><td><a href="${esc(i.url)}" target="_blank" rel="noopener">Abrir</a></td></tr>`).join("")}</tbody></table></div>`;
- document.querySelectorAll(".ph").forEach(p=>p.onclick=()=>{const i=D.find(x=>String(x.id)==p.dataset.id);if(i&&i.fotos&&i.fotos.length)openLb(i.fotos,0)});
- const m=$("#more");if(m)m.onclick=()=>{shown+=PAGE;render()};
- lastA=a;if($("#accCharts").open)drawCharts();
-}
-let lastA=[],resizeT;addEventListener("resize",()=>{clearTimeout(resizeT);resizeT=setTimeout(()=>render(),200)});
-function drawCharts(){const a=lastA;if(!window.Chart)return;const css=getComputedStyle(document.documentElement),acc=css.getPropertyValue("--acc").trim(),P=["#4f8cff","#2ecc71","#f5a623","#e74c3c","#9b59b6","#1abc9c"];
- Chart.defaults.color=css.getPropertyValue("--mut");Chart.defaults.borderColor=css.getPropertyValue("--bd");Object.values(charts).forEach(c=>c.destroy());
- const bins={};a.forEach(i=>{if(!i.preco_brl)return;const b=Math.floor(i.preco_brl/100)*100;bins[b]=(bins[b]||0)+1});const bk=Object.keys(bins).map(Number).sort((x,y)=>x-y);
- const o=t=>({maintainAspectRatio:false,animation:{duration:500},plugins:{title:{display:true,text:t},legend:{display:false}}});
- const BR=[...new Set(a.map(i=>i.marca))],yb=[2300,2400,2500,2600,2700,1e9],yl=["≤ ¥2.300","¥2.301–2.400","¥2.401–2.500","¥2.501–2.600","¥2.601–2.700","> ¥2.700"];
- const oc=o("Preço por marca (yuan)");oc.plugins.legend.display=true;oc.scales={x:{stacked:true},y:{stacked:true}};
- charts.c1=new Chart(c1,{type:"bar",data:{labels:yl,datasets:BR.map((b,n)=>({label:b,data:yb.map((h,k)=>a.filter(i=>i.marca==b&&i.preco_yuan<=h&&i.preco_yuan>(k?yb[k-1]:0)).length),backgroundColor:P[n%6]}))},options:oc});
- const br={};a.forEach(i=>{if(i.preco_brl)(br[i.marca]=br[i.marca]||[]).push(i.preco_brl)});const bn=Object.keys(br);
- charts.c2=new Chart(c2,{type:"bar",data:{labels:bn,datasets:[{data:bn.map(b=>Math.round(br[b].reduce((x,y)=>x+y,0)/br[b].length)),backgroundColor:P,borderRadius:6}]},options:o("Preço médio por marca (R$)")});
- const o3=o("Preço × velocidade");o3.plugins.legend.display=true;o3.plugins.tooltip={callbacks:{label:c=>c.raw.l+": "+brl(c.raw.y)}};
- o3.plugins.title.text="Score × preço (¥)";o3.scales={x:{title:{display:true,text:"¥"}},y:{title:{display:true,text:"score"}}};o3.plugins.tooltip={callbacks:{label:c=>c.raw.l+": "+cny(c.raw.x)+", score "+c.raw.y}};
- charts.c3=new Chart(c3,{type:"scatter",data:{datasets:bn.map((b,n)=>({label:b,data:a.filter(i=>i.marca==b&&i.score!=null).map(i=>({x:i.preco_yuan,y:i.score,l:nome(i)})),backgroundColor:P[n%6]}))},options:o3});
-}
+const F0={marca:"",freq:0,rgb:"",cor:"",pmax:"",sort:"preco",mmin:"",mmax:"",cl:"",caixa:"",risco:"",envio:false,nv:false};
+let D=[],META={},S={...F0},shown=24;
+const PRE=[["RGB branco 6400+",{rgb:"sim",cor:"branco",freq:6400}],["Margem 20–30%",{mmin:20,mmax:30,sort:"margem"}],["Até ¥2.500",{pmax:"2500"}]];
+function ago(t){if(!t)return"";const m=Math.round((Date.now()-new Date(t.replace(" ","T")+":00-03:00"))/6e4);return m<60?m+" min":m<1440?Math.round(m/60)+" h":Math.round(m/1440)+" d"}
+function nome(i){let n=i.titulo_pt||i.label||i.modelo||"";return n.replace(/\b\d{2}GB\b|DDR5-\d{4}|\bCL\d{2}\b|\(.*?\)/gi,"").replace(/\s+/g," ").trim()}
+// filtro puro (também usado nos testes)
+function apply(D,S){const n=x=>x===""||x==null?null:+x;
+ let a=D.filter(i=>(S.nv||i.verificado)&&i.status=="à venda"
+  &&(!S.marca||i.marca==S.marca)&&(!+S.freq||(i.velocidade||0)>=+S.freq)&&(!S.rgb||i.rgb==S.rgb)&&(!S.cor||i.cor==S.cor)
+  &&(n(S.pmax)==null||i.preco_yuan<=n(S.pmax))&&(n(S.mmin)==null||(i.margem_pct!=null&&i.margem_pct>=n(S.mmin)))&&(n(S.mmax)==null||(i.margem_pct!=null&&i.margem_pct<=n(S.mmax)))
+  &&(!S.cl||(i.cl!=null&&i.cl<=+S.cl))&&(!S.caixa||i.caixa_n==S.caixa)&&(!S.risco||(S.risco=="confiável"?i.vend_risco=="confiável":i.vend_risco!="alto risco"))&&(!S.envio||i.envio=="sim"));
+ const k={preco:[i=>i.preco_yuan,1],lucro:[i=>i.lucro_brl,-1],margem:[i=>i.margem_pct,-1],cl:[i=>i.cl,1]}[S.sort]||[i=>i.preco_yuan,1];
+ return a.sort((x,y)=>{const p=k[0](x),q=k[0](y);if(p==null&&q==null)return x.preco_yuan-y.preco_yuan;if(p==null)return 1;if(q==null)return-1;return (p-q)*k[1]||x.preco_yuan-y.preco_yuan})}
+window.__apply=st=>apply(D,{...F0,...st}).length;
+const ctl={marca:"#fMarca",freq:"#fFreq",rgb:"#fRgb",cor:"#fCor",pmax:"#fPmax",sort:"#fSort",mmin:"#fMmin",mmax:"#fMmax",cl:"#fCl",caixa:"#fCaixa",risco:"#fRisco",envio:"#fEnvio",nv:"#fNv"};
+function sync(){for(const[k,s]of Object.entries(ctl)){const e=$(s);if(e.type=="checkbox")e.checked=!!S[k];else e.value=S[k]??""}
+ for(const[k,s]of Object.entries(ctl))$(s).classList&&$(s).classList.toggle("on",!!S[k]&&k!="sort"&&S[k]!=F0[k]);
+ const nm=["mmin","mmax","cl","caixa","risco","envio","nv"].filter(k=>S[k]!==""&&S[k]!==false&&S[k]!=null).length;$("#nMais").hidden=!nm;$("#nMais").textContent=nm;$("#bMais").classList.toggle("on",nm>0)}
+function save(){history.replaceState(null,"","#"+new URLSearchParams(Object.entries(S).filter(([k,v])=>v!==F0[k]&&v!=="").map(([k,v])=>[k,String(v)])))}
+function load(){const p=new URLSearchParams(location.hash.slice(1));for(const[k,v]of p)if(k in F0)S[k]=typeof F0[k]=="boolean"?v=="true":typeof F0[k]=="number"?+v:v}
+function card(i){const rk=i.vend_risco=="confiável"?"var(--ok)":i.vend_risco=="atenção"?"var(--warn)":"var(--bad)";
+ const sp=[i.velocidade?i.velocidade+" MHz":null,i.cl?"CL"+i.cl:null,i.rgb=="sim"?"RGB":i.rgb=="não"?"sem RGB":null,i.cor!="desconhecida"?i.cor:null].filter(Boolean).join(" · ");
+ const mg=i.margem_pct!=null?`<span class="chip ${i.margem_pct>=20&&i.margem_pct<=30?"ok":""}">margem ${Math.round(i.margem_pct)}%</span>`:`<span class="chip">margem ?</span>`;
+ return `<article class="card"><div class="ph">${i.fotos&&i.fotos.length?`<img loading="lazy" width="400" height="300" src="${esc(i.fotos[0])}" alt="">`:"Sem foto"}</div><div class="cb">
+ <div class="nm">${esc(nome(i))}</div><div class="pr">${cny(i.preco_yuan)}<small>${brl(i.preco_brl)}</small></div>
+ <div class="sp">${esc(sp)||"specs não informadas"}</div>
+ <div class="sl"><span class="dot" style="background:${rk}" title="${esc(i.vend_risco)}"></span>${esc(i.vend_nome||"vendedor ?")}${i.vend_vendas!=null?" · "+i.vend_vendas.toLocaleString("pt-BR")+" vendas":""}${i.vend_rating!=null?" · "+i.vend_rating+"%":""}</div>
+ <details class="more"><summary>Detalhes</summary><ul>
+  <li>${i.verificado?"Verificado há "+ago(i.verificado_em):"Não verificado"}</li><li>Kit ${esc(i.kit)}, caixa: ${esc(i.caixa_n)}, envio: ${esc(i.envio)}</li>
+  ${i.lucro_brl!=null?`<li>Lucro estimado ${brl(i.lucro_brl)}</li>`:""}${i.titulo?`<li>${esc(i.titulo)}</li>`:""}${i.frete_local?`<li>${esc(i.frete_local)}</li>`:""}
+  <li>Vendedor: ${esc(i.vend_risco)}. ${(i.vend_motivos||[]).map(esc).join("; ")}</li>${i.vend_url?`<li><a href="${esc(i.vend_url)}" target="_blank" rel="noopener">Perfil do vendedor</a></li>`:""}</ul></details>
+ <div class="ft">${mg}<a class="open" href="${esc(i.url)}" target="_blank" rel="noopener">Abrir</a></div></div></article>`}
+function render(){sync();save();const a=apply(D,S);
+ $("#count").textContent=`${a.length} ${a.length==1?"kit":"kits"}${S.nv?"":" verificados"}`;
+ $("#grid").innerHTML=a.length?a.slice(0,shown).map(card).join(""):`<div class="empty">Nenhum kit com esses filtros. <button class="btn" onclick="clearAll()">Limpar</button></div>`;
+ $("#more").hidden=a.length<=shown;$("#more").textContent=`Mostrar mais (${a.length-shown})`;
+ const b=a.filter(i=>i.vend_risco!="alto risco").sort((x,y)=>x.preco_yuan-y.preco_yuan)[0];
+ $("#best").hidden=!b;if(b)$("#best").innerHTML=`Melhor oferta com esses filtros: <b>${cny(b.preco_yuan)}</b> ${esc(nome(b))} · <a href="${esc(b.url)}" target="_blank" rel="noopener">abrir</a>`}
+function clearAll(){S={...F0,sort:S.sort};shown=24;render()}
+function sheet(o){$("#sheet").hidden=!o;$("#scrim").hidden=!o;document.body.style.overflow=o?"hidden":""}
+function tab(s){$("#tC").classList.toggle("on",!s);$("#tS").classList.toggle("on",s);$("#vC").hidden=s;$("#vS").hidden=!s;if(s)status()}
+function status(){const s=META.status||{},v=s.verificador||{},f=s.fotos||{},api=s.api_flatt||{},x=a=>a==null||a===""?"sem dados":esc(a);
+ const dm=Object.entries(s.descartes_por_motivo||{}).sort((a,b)=>b[1]-a[1]),DS=META.descartados||[];
+ $("#status").innerHTML=`<div class="sec"><h2>Atualização</h2><dl><dt>Dados</dt><dd>${x(META.gerado_em)}</dd><dt>Publicado</dt><dd>${x(s.ultimo_publish)}</dd><dt>Catálogo do bot</dt><dd>${x(s.catalogo_hermes_workspace)}</dd><dt>Câmbio</dt><dd>¥1 = R$ ${META.taxa_cny_brl?.toFixed(4)}</dd></dl></div>
+ <div class="sec"><h2>Verificação ao vivo</h2><dl><dt>Estado</dt><dd>${x(v.estado)}${v.estado&&v.estado.startsWith("pausado")&&v.retoma_em?", retoma "+esc(v.retoma_em.slice(11)):""}</dd><dt>Última hora</dt><dd>${x(v.verificados_ultima_hora)} verificados, ${x(v.muros_ultima_hora)} bloqueios</dd><dt>Em 12 h</dt><dd>${v.total!=null?v.verificados_12h+" de "+v.total:"sem dados"}</dd></dl></div>
+ <div class="sec"><h2>Fotos e traduções</h2><dl><dt>Fotos</dt><dd>${x(f.ok)} ok, ${x(f.falhas)} falhas</dd><dt>Traduções</dt><dd>${x((s.traducoes||{}).ok)}</dd><dt>API, último sucesso</dt><dd>${x(api.ultimo_sucesso)}</dd><dt>API, último erro</dt><dd>${x(api.ultimo_erro)}</dd></dl></div>
+ <div class="sec"><h2>Regras</h2><ul><li>Só kits de 2 pentes, com envio, à venda.</li><li>Sem vendedores bloqueados.</li><li>Preço entre ¥1.200 e ¥5.000, sem preço por pente.</li><li>Por padrão, só verificados nas últimas 12 h.</li><li>Ponto verde, amarelo ou vermelho: risco do vendedor (confiável, atenção, alto).</li></ul></div>
+ <details class="sec"><summary><b>Descartados (${DS.length})</b></summary><p>${dm.map(([k,n])=>esc(k)+": "+n).join(" · ")}</p><div class="tw"><table><tr><th>Anúncio</th><th>¥</th><th>Motivo</th></tr>${DS.map(a=>`<tr><td>${a.url?`<a href="${esc(a.url)}" target="_blank" rel="noopener">${esc((a.titulo||a.id).slice(0,60))}</a>`:esc(a.id)}</td><td>${cny(a.preco)}</td><td>${esc(a.motivo)}</td></tr>`).join("")}</table></div></details>`}
+fetch("data.json?"+Date.now()).then(r=>r.json()).then(d=>{META=d;D=d.items;
+ const brands=[...new Set(D.map(i=>i.marca))].sort();$("#fMarca").innerHTML+=brands.map(b=>`<option>${esc(b)}</option>`).join("");
+ $("#line").textContent=`${D.filter(i=>i.verificado&&i.status=="à venda").length} kits verificados · atualizado há ${ago(d.gerado_em)}`;
+ $("#presets").innerHTML=PRE.map((p,n)=>`<button class="btn" data-p="${n}">${p[0]}</button>`).join("");
+ $("#presets").onclick=e=>{const b=e.target.closest("[data-p]");if(!b)return;S={...F0,...PRE[+b.dataset.p][1]};shown=24;render()};
+ for(const[k,s]of Object.entries(ctl)){const e=$(s);e.addEventListener(e.type=="number"?"input":"change",()=>{S[k]=e.type=="checkbox"?e.checked:(e.type=="number"&&e.value!==""?+e.value:e.value);shown=24;render()})}
+ $("#bMais").onclick=()=>sheet(true);$("#bOk").onclick=$("#scrim").onclick=()=>sheet(false);$("#bClear").onclick=$("#bClear2").onclick=clearAll;
+ $("#more").onclick=()=>{shown+=24;render()};$("#tC").onclick=()=>tab(false);$("#tS").onclick=()=>tab(true);
+ addEventListener("keydown",e=>{if(e.key=="Escape")sheet(false)});
+ load();render();window.__ready=true}).catch(e=>{$("#line").textContent="Falha ao carregar os dados: "+e});
 </script></body></html>
