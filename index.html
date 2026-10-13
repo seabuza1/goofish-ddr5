@@ -1,41 +1,41 @@
 <!doctype html><html lang="pt-BR" data-theme="dark"><head><meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0f1115">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#0f1714"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..800&display=swap" rel="stylesheet">
 <title>DDR5 no Goofish — Painel</title>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js" defer></script>
 <style>
-:root{--bg:#0f1115;--card:#181b22;--fg:#e8eaf0;--mut:#8a90a2;--acc:#4f8cff;--ok:#2ecc71;--bd:#262a34;--warn:#f5a623;--sat:env(safe-area-inset-top);--sab:env(safe-area-inset-bottom)}
-[data-theme=light]{--bg:#f4f6fa;--card:#fff;--fg:#1b1e26;--mut:#667;--bd:#e2e5ec}
-[hidden]{display:none!important}*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{overflow-x:hidden}
-body{margin:0;font-family:system-ui,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--fg);transition:background .3s,color .3s;padding-bottom:calc(20px + var(--sab))}
+:root{--bg:#0f1714;--card:#16211c;--fg:#e6ece7;--mut:#8fa197;--acc:#d9a93a;--acf:#1a1405;--ok:#5fbf8a;--bd:#24332c;--warn:#e0a24a;--bad:#e0645a;--sat:env(safe-area-inset-top);--sab:env(safe-area-inset-bottom)}
+[data-theme=light]{--bg:#f3f5f1;--card:#fbfcfa;--fg:#18201c;--mut:#5d6b63;--bd:#d9dfd9;--acc:#9a6b00;--acf:#fff;--ok:#2f7d55;--warn:#a36200;--bad:#b23a30}
+[hidden]{display:none!important}:focus-visible{outline:2px solid var(--acc);outline-offset:2px}h1,b{text-wrap:balance}.skip{position:absolute;left:-999px}.skip:focus{left:12px;top:12px;z-index:99;background:var(--card);padding:8px}*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}html,body{overflow-x:hidden}
+body{margin:0;font-family:"Archivo",system-ui,sans-serif;line-height:1.5;font-variant-numeric:tabular-nums;touch-action:manipulation;background:var(--bg);color:var(--fg);transition:background-color .3s,color .3s;padding-bottom:calc(20px + var(--sab))}
 button,select,input{font:inherit}
 .top{position:sticky;top:0;z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--bd);padding:calc(8px + var(--sat)) 12px 8px}
-.tr1{display:flex;align-items:center;gap:8px}.tr1 h1{font-size:17px;margin:0;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tr1{display:flex;align-items:center;gap:8px}.tr1 h1{font-size:19px;font-stretch:115%;font-weight:800;letter-spacing:-.01em;margin:0;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .tr2{display:flex;gap:8px;margin-top:8px}
 .ib{min-width:44px;min-height:44px;border-radius:12px;border:1px solid var(--bd);background:var(--card);color:var(--fg);cursor:pointer;padding:0 12px;display:inline-flex;align-items:center;justify-content:center;gap:6px;position:relative}
-.ib.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.ib.on{background:var(--acc);border-color:var(--acc);color:var(--acf)}
 .badge{background:var(--acc);color:#fff;border-radius:999px;font-size:11px;min-width:18px;height:18px;padding:0 5px;display:inline-flex;align-items:center;justify-content:center}.ib.on .badge{background:#fff;color:var(--acc)}
 input[type=search],select{background:var(--card);color:var(--fg);border:1px solid var(--bd);border-radius:12px;padding:0 12px;min-height:44px;font-size:16px;min-width:0}
 input[type=search]{flex:1}select{max-width:42%}
 main{padding:12px;max-width:1400px;margin:auto}
 .sub{color:var(--mut);font-size:11px;margin:0 0 10px}
-.stats{display:flex;gap:10px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;margin-bottom:8px;scrollbar-width:none}.stats::-webkit-scrollbar{display:none}
-.stat{flex:0 0 46%;scroll-snap-align:start;background:var(--card);border:1px solid var(--bd);border-radius:14px;padding:12px;animation:up .4s ease both}.stat b{font-size:20px;display:block}.stat small{color:var(--mut);font-size:12px}
+.stats{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding-bottom:6px;margin-bottom:8px;scrollbar-width:none}.stats::-webkit-scrollbar{display:none}
+.stat{flex:0 0 46%;scroll-snap-align:start;background:transparent;border-left:3px solid var(--bd);padding:4px 12px}.stat:nth-child(2){border-left-color:var(--acc)}.stat b{font-size:24px;font-stretch:80%;display:block}.stat small{color:var(--mut);font-size:12px}
 @keyframes up{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
 .active{display:flex;gap:6px;overflow-x:auto;padding:4px 0 8px;scrollbar-width:none}.active::-webkit-scrollbar{display:none}
-.chip{flex:0 0 auto;border:1px solid var(--bd);border-radius:999px;padding:0 14px;min-height:40px;font-size:14px;cursor:pointer;background:var(--card);color:var(--fg);transition:background .15s}.chip.on{background:var(--acc);border-color:var(--acc);color:#fff}.chip small{opacity:.7}
-.chip.rm{background:var(--acc);color:#fff;border-color:var(--acc)}
+.chip{flex:0 0 auto;border:1px solid var(--bd);border-radius:6px;padding:0 12px;min-height:40px;font-size:14px;cursor:pointer;background:var(--card);color:var(--fg);transition:background-color .15s,color .15s}.chip.on{background:var(--acc);border-color:var(--acc);color:var(--acf)}.chip small{opacity:.7}
+.chip.rm{background:transparent;color:var(--acc);border-color:var(--acc)}
 .bar{display:flex;justify-content:space-between;align-items:center;gap:8px;color:var(--mut);font-size:13px;margin:4px 0 10px}
 .views{display:none;gap:6px}
 .grid{display:grid;grid-template-columns:1fr;gap:10px}
-.item{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:0 14px 14px;overflow:hidden;display:flex;flex-direction:column;gap:8px;animation:up .3s ease both}
+.item{content-visibility:auto;contain-intrinsic-size:auto 420px;background:var(--card);border:1px solid var(--bd);border-radius:10px;padding:0 14px 14px;overflow:hidden;display:flex;flex-direction:column;gap:8px;animation:up .3s ease both}
 .item.best{border-color:var(--ok);box-shadow:0 0 0 1px var(--ok)}
-.ph{position:relative;margin:0 -14px 4px;aspect-ratio:4/3;background:var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden}.ph img{width:100%;height:100%;object-fit:cover}.noph{color:var(--mut);text-align:center;font-size:13px;opacity:.6}.ph.none{aspect-ratio:auto;height:64px;cursor:default}.ph.none .noph{font-size:12px}.clb{position:absolute;top:8px;left:8px;background:var(--acc);color:#fff;font-weight:800;padding:4px 10px;border-radius:999px;font-size:14px}.pn{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.6);color:#fff;font-size:12px;padding:2px 8px;border-radius:999px}
+.ph{position:relative;margin:0 -14px 4px;aspect-ratio:4/3;background:var(--bg);display:flex;align-items:center;justify-content:center;cursor:pointer;overflow:hidden}.ph img{width:100%;height:100%;object-fit:cover}.noph{color:var(--mut);text-align:center;font-size:13px;opacity:.6}.ph.none{aspect-ratio:auto;height:64px;cursor:default}.ph.none .noph{font-size:12px}.clb{position:absolute;top:8px;left:8px;background:var(--acc);color:var(--acf);font-weight:800;padding:3px 8px;border-radius:4px;font-size:14px}.pn{position:absolute;right:8px;bottom:8px;background:rgba(0,0,0,.6);color:#fff;font-size:12px;padding:2px 8px;border-radius:999px}
 .lb{position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:60;display:none;align-items:center;justify-content:center;flex-direction:column;gap:10px;padding:16px}.lb.open{display:flex}.lb img{max-width:100%;max-height:78vh;border-radius:10px}.lb .nav{display:flex;gap:10px}
-.vend{background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:0 10px;font-size:13px}.vend summary{min-height:44px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;cursor:pointer;list-style:none}.vend ul{margin:4px 0 6px;padding-left:18px;font-size:12px}.rk{font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px}.rk.ok{background:rgba(46,204,113,.15);color:var(--ok)}.rk.md{background:rgba(245,166,35,.15);color:var(--warn)}.rk.hi{background:rgba(231,76,60,.18);color:#e74c3c}
-.price{font-size:28px;font-weight:800;line-height:1.1}.price small{display:block;font-size:13px;color:var(--mut);font-weight:400;margin-top:2px}
+.vend{background:var(--bg);border:1px solid var(--bd);border-radius:10px;padding:0 10px;font-size:13px}.vend summary{min-height:44px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;cursor:pointer;list-style:none}.vend ul{margin:4px 0 6px;padding-left:18px;font-size:12px}.rk{font-size:12px;font-weight:700;padding:2px 8px;border-radius:999px}.rk.ok{background:rgba(46,204,113,.15);color:var(--ok)}.rk.md{background:rgba(245,166,35,.15);color:var(--warn)}.rk.hi{background:color-mix(in srgb,var(--bad) 18%,transparent);color:var(--bad)}
+.price{font-size:30px;font-weight:800;font-stretch:80%;letter-spacing:-.01em;color:var(--acc);line-height:1.1}.price small{display:block;font-size:13px;color:var(--mut);font-weight:400;margin-top:2px}
 .badges{display:flex;flex-wrap:wrap;gap:5px}.bd{font-size:12px;padding:3px 8px;border-radius:8px;background:var(--bg);border:1px solid var(--bd)}.bd.g{color:var(--ok);border-color:var(--ok)}.bd.w{color:var(--warn);border-color:var(--warn)}
 .t{font-size:12px;color:var(--mut);word-break:break-word}
-a.go{display:flex;align-items:center;justify-content:center;min-height:48px;background:var(--acc);color:#fff;text-decoration:none;border-radius:12px;font-weight:600;font-size:15px;margin-top:4px}
+a.go{display:flex;align-items:center;justify-content:center;min-height:48px;background:var(--acc);color:var(--acf);text-decoration:none;border-radius:12px;font-weight:600;font-size:15px;margin-top:4px}
 .more{display:block;width:100%;margin:14px 0;min-height:48px}
 .tw{overflow-x:auto;background:var(--card);border:1px solid var(--bd);border-radius:14px}
 table{width:100%;border-collapse:collapse;font-size:13px;min-width:800px}th,td{padding:8px;border-bottom:1px solid var(--bd);text-align:left;vertical-align:top}th{color:var(--mut)}tr.best td{background:rgba(46,204,113,.08)}a{color:var(--acc)}
@@ -59,17 +59,17 @@ input[type=range]{width:100%;accent-color:var(--acc);height:32px}
 }
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style></head><body>
-<div class="top"><div class="tr1"><h1>🧠 DDR5 no Goofish</h1><button class="ib" id="theme" aria-label="Alternar tema">🌓</button></div>
-<div class="tr2"><input type="search" id="q" placeholder="Buscar…" enterkeyhint="search" aria-label="Buscar">
+<a class="skip" href="#list">Pular para os anúncios</a><div class="top"><div class="tr1"><h1>Memória DDR5 no Goofish</h1><button class="ib" id="theme" aria-label="Alternar tema claro/escuro"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 4a8 8 0 0 1 0 16z" fill="currentColor"/></svg></button></div>
+<div class="tr2"><input type="search" id="q" placeholder="Buscar modelo, cidade…" name="q" autocomplete="off" spellcheck="false" enterkeyhint="search" aria-label="Buscar">
 <select id="sort" aria-label="Ordenar"><option value="preco">Menor preço</option><option value="-preco">Maior preço</option><option value="pgb">Menor R$/GB</option><option value="-visto">Mais recente</option><option value="-vel">Mais rápida</option><option value="cl">Menor CL</option></select>
-<button class="ib" id="openF" aria-label="Filtros">⚙︎ <span class="lbl">Filtros</span> <span class="badge" id="fcount" hidden>0</span></button></div></div>
+<button class="ib" id="openF" aria-label="Filtros"><span class="lbl">Filtros</span> <span class="badge" id="fcount" hidden>0</span></button></div></div>
 <main>
 <p class="sub" id="meta">Carregando…</p>
 <div class="stats" id="cards"></div>
 <div class="active" id="active"></div>
-<div class="bar"><span id="count"></span><div class="views"><button class="ib" id="vCards">▦ Cards</button><button class="ib" id="vTable">☰ Tabela</button></div></div>
+<div class="bar"><span id="count" aria-live="polite"></span><div class="views"><button class="ib" id="vCards">▦ Cards</button><button class="ib" id="vTable">☰ Tabela</button></div></div>
 <div id="list"></div>
-<details class="acc" id="accCharts"><summary>📊 Gráficos</summary><div class="charts"><div><canvas id="c1"></canvas></div><div><canvas id="c2"></canvas></div><div><canvas id="c3"></canvas></div></div></details>
+<details class="acc" id="accCharts"><summary>Gráficos de preço</summary><div class="charts"><div><canvas id="c1"></canvas></div><div><canvas id="c2"></canvas></div><div><canvas id="c3"></canvas></div></div></details>
 </main>
 <div class="scrim" id="scrim"></div>
 <div class="sheet" id="sheet" role="dialog" aria-label="Filtros"><div class="grab"></div>
@@ -93,7 +93,7 @@ fetch("data.json?"+Date.now()).then(r=>r.json()).then(d=>{META=d;D=d.items;init(
 const fmtOf=k=>(GROUPS.find(g=>g[0]==k)||[])[2]||(v=>v);
 function openSheet(o){$("#sheet").classList.toggle("open",o);$("#scrim").classList.toggle("open",o);document.body.style.overflow=o?"hidden":""}
 function init(){
- $("#meta").textContent=`Só anúncios com envio (${META.removidos_so_retirada||0} só-retirada, ${META.removidos_vendidos||0} vendidos e ${META.removidos_bloqueados||0} de vendedores bloqueados ocultos) · Atualizado ${META.gerado_em} · ¥1 = R$ ${META.taxa_cny_brl.toFixed(4)} · R$ = conversão direta, sem impostos/frete`;
+ $("#meta").textContent=`Atualizado em ${META.gerado_em}. Mostra só anúncios que enviam e ainda estão à venda; ocultamos ${META.removidos_vendidos||0} vendidos, ${META.removidos_so_retirada||0} só para retirada e ${META.removidos_bloqueados||0} de vendedores bloqueados. Valores em reais convertidos a ¥1 = R$ ${META.taxa_cny_brl.toFixed(4)}, sem imposto nem frete.`;
  const g={};D.forEach(i=>{if(i.status!="à venda"||!i.preco_yuan)return;const k=i.velocidade+"|"+i.kit;if(!g[k]||i.preco_yuan<g[k].preco_yuan)g[k]=i});Object.values(g).forEach(i=>bestIds.add(i.id));
  const pr=D.map(i=>i.preco_brl).filter(Boolean);PMAX=Math.ceil(Math.max(...pr)/10)*10;
  Object.assign($("#pmax"),{min:Math.floor(Math.min(...pr)/10)*10,max:PMAX,step:10});
@@ -121,15 +121,15 @@ document.addEventListener("click",e=>{if(e.target.id=="lbc"||e.target.id=="lb")$
 function toggle(k,v){const a=S.f[k]=S.f[k]||[];const ix=a.indexOf(v);ix<0?a.push(v):a.splice(ix,1);if(!a.length)delete S.f[k];shown=PAGE;render(true)}
 function filtered(){const q=S.q.toLowerCase();return D.filter(i=>Object.entries(S.f).every(([k,vs])=>vs.includes(String(i[k])))&&(!q||JSON.stringify(i).toLowerCase().includes(q))&&(i.preco_brl==null||i.preco_brl<=S.pmax))}
 function sorted(a){const s=S.sort,d=s[0]=="-"?-1:1,k={preco:"preco_yuan",pgb:"preco_por_gb_brl",visto:"visto_em",vel:"velocidade",cl:"cl"}[s.replace("-","")];return a.slice().sort((x,y)=>{let p=x[k],q=y[k];if(k=="cl"){p=parseFloat(p)||999;q=parseFloat(q)||999}if(p==null)return 1;if(q==null)return-1;return(p>q?1:p<q?-1:0)*d})}
-function badges(i){return[i.kit!="desconhecido"?i.kit:null,i.capacidade_gb?i.capacidade_gb+"GB":null,i.velocidade?i.velocidade+" MHz":null,i.cl?"CL"+i.cl:null,i.estado].filter(Boolean).map(b=>`<span class="bd">${esc(b)}</span>`).join("")+`<span class="bd ${i.caixa_n=="com caixa"?"g":""}">📦 ${esc(i.caixa_n)}</span><span class="bd">💡 RGB: ${esc(i.rgb)}</span>`+(i.envio=="sim"?`<span class="bd g">🚚 envio</span>`:`<span class="bd w">🚚 envio não confirmado</span>`)+(i.status!="à venda"?`<span class="bd w">${esc(i.status)}</span>`:"")+(bestIds.has(i.id)?`<span class="bd g">★ melhor p/ ${i.velocidade} ${i.kit}</span>`:"")}
+function badges(i){return[i.kit!="desconhecido"?i.kit:null,i.capacidade_gb?i.capacidade_gb+"GB":null,i.velocidade?i.velocidade+" MHz":null,i.cl?"CL"+i.cl:null,i.estado].filter(Boolean).map(b=>`<span class="bd">${esc(b)}</span>`).join("")+`<span class="bd ${i.caixa_n=="com caixa"?"g":""}">Caixa: ${esc(i.caixa_n)}</span><span class="bd">RGB: ${esc(i.rgb)}</span>`+(i.envio=="sim"?`<span class="bd g">Envia</span>`:`<span class="bd w">Envio não confirmado</span>`)+(i.status!="à venda"?`<span class="bd w">${esc(i.status)}</span>`:"")+(bestIds.has(i.id)?`<span class="bd g">Mais barato em ${i.velocidade} MHz${i.kit!="desconhecido"?" "+i.kit:""}</span>`:"")}
 const nome=i=>i.titulo_pt||i.label;
-function card(i,n){return `<div class="item ${bestIds.has(i.id)?"best":""}" style="animation-delay:${Math.min(n%PAGE,10)*.03}s">
- <div class="ph ${i.fotos&&i.fotos.length?"":"none"}" data-id="${esc(i.id)}">${i.fotos&&i.fotos.length?`<img loading="lazy" src="${esc(i.fotos[0])}" alt="">${i.fotos.length>1?`<span class="pn">📷 ${i.fotos.length}</span>`:""}`:`<div class="noph">🖼️ sem foto</div>`}${i.cl?`<span class="clb">CL${i.cl}</span>`:""}</div>
+function card(i,n){return `<div class="item ${bestIds.has(i.id)?"best":""}" >
+ <div class="ph ${i.fotos&&i.fotos.length?"":"none"}" data-id="${esc(i.id)}">${i.fotos&&i.fotos.length?`<img loading="lazy" width="400" height="300" src="${esc(i.fotos[0])}" alt="">${i.fotos.length>1?`<span class="pn">${i.fotos.length} fotos</span>`:""}`:`<div class="noph">Sem foto</div>`}${i.cl?`<span class="clb">CL${i.cl}</span>`:""}</div>
  <div class="price">${brl(i.preco_brl)}<small>${cny(i.preco_yuan)}${i.preco_por_gb_brl?" · "+brl(i.preco_por_gb_brl)+"/GB":""}</small></div>
  <div><b>${esc(nome(i))}</b><div class="t">${esc(i.label)}${i.titulo?" · "+esc(i.titulo):""}</div></div><div class="badges">${badges(i)}</div>
- <details class="vend"><summary><span class="rk ${i.vend_risco=="confiável"?"ok":i.vend_risco=="atenção"?"md":"hi"}">${i.vend_risco=="confiável"?"✔":"⚠"} ${esc(i.vend_risco)}</span> 👤 ${esc(i.vend_nome||"vendedor ?")} · ${i.vend_vendas!=null?i.vend_vendas.toLocaleString("pt-BR")+" vendas":"vendas ?"}${i.vend_rating!=null?" · "+i.vend_rating+"%":""}</summary><ul>${(i.vend_motivos||[]).map(m=>`<li>${esc(m)}</li>`).join("")}</ul><div class="t">${i.vend_idade_dias!=null?"Conta: ~"+i.vend_idade_dias+" dias · ":""}Dados do catálogo do bot (perfil não consultado ao vivo)</div>${i.vend_url?`<a href="${esc(i.vend_url)}" target="_blank" rel="noopener">Ver perfil ↗</a>`:""}</details>
- <div class="t">📍 ${esc(i.frete_local||"local não informado")} · 🕒 ${esc(i.visto_em)}</div>
- <a class="go" href="${esc(i.url)}" target="_blank" rel="noopener">Ver no Goofish ↗</a></div>`}
+ <details class="vend"><summary><span class="rk ${i.vend_risco=="confiável"?"ok":i.vend_risco=="atenção"?"md":"hi"}">${esc(i.vend_risco)}</span> ${esc(i.vend_nome||"vendedor ?")} · ${i.vend_vendas!=null?i.vend_vendas.toLocaleString("pt-BR")+" vendas":"vendas ?"}${i.vend_rating!=null?" · "+i.vend_rating+"%":""}</summary><ul>${(i.vend_motivos||[]).map(m=>`<li>${esc(m)}</li>`).join("")}</ul><div class="t">${i.vend_idade_dias!=null?"Conta: ~"+i.vend_idade_dias+" dias · ":""}Fonte: catálogo do bot. O perfil não foi consultado ao vivo.</div>${i.vend_url?`<a href="${esc(i.vend_url)}" target="_blank" rel="noopener">Ver perfil</a>`:""}</details>
+ <div class="t">${esc(i.frete_local||"Local não informado")}. Visto em ${esc(i.visto_em)}</div>
+ <a class="go" href="${esc(i.url)}" target="_blank" rel="noopener">Abrir no Goofish</a></div>`}
 function render(soft){
  writeHash();if($("#q").value!==S.q)$("#q").value=S.q;$("#sort").value=S.sort;$("#pmax").value=S.pmax;$("#pmaxv").textContent=brl(+S.pmax);
  document.querySelectorAll("#chips .chip").forEach(c=>c.classList.toggle("on",(S.f[c.dataset.k]||[]).includes(c.dataset.v)));
@@ -139,9 +139,9 @@ function render(soft){
  const view=isMobile()?"cards":S.view;$("#vCards").classList.toggle("on",view=="cards");$("#vTable").classList.toggle("on",view=="table");
  const a=sorted(filtered());$("#count").textContent=`${a.length} de ${D.length} anúncios`;$("#applyN").textContent=a.length;
  if(soft&&$("#sheet").classList.contains("open"))return;
- if(!a.length)$("#list").innerHTML=`<div class="empty">Nenhum anúncio com esses filtros.<br><br><button class="ib" onclick="$('#clear').click()">Limpar filtros</button></div>`;
+ if(!a.length)$("#list").innerHTML=`<div class="empty">Nada bate com esses filtros.<br><br><button class="ib" onclick="$('#clear').click()">Limpar filtros</button></div>`;
  else if(view=="cards")$("#list").innerHTML=`<div class="grid">${a.slice(0,shown).map(card).join("")}</div>`+(a.length>shown?`<button class="ib more" id="more">Carregar mais (${a.length-shown} restantes)</button>`:"");
- else $("#list").innerHTML=`<div class="tw"><table><thead><tr><th>Preço</th><th>¥</th><th>R$/GB</th><th>Anúncio</th><th>Specs</th><th>Local</th><th>Status</th><th>Visto</th><th></th></tr></thead><tbody>${a.map(i=>`<tr class="${bestIds.has(i.id)?"best":""}"><td><b>${brl(i.preco_brl)}</b></td><td>${cny(i.preco_yuan)}</td><td>${brl(i.preco_por_gb_brl)}</td><td>${esc(nome(i))}<div class="t">${esc(i.titulo)}</div></td><td><b>${i.cl?"CL"+i.cl:"CL?"}</b> · ${[i.kit,i.velocidade,"caixa: "+i.caixa_n,"RGB: "+i.rgb,"envio: "+i.envio].join(" · ")}</td><td class="t">${esc(i.frete_local)}<br>👤 ${esc(i.vend_nome||"?")} · <b>${esc(i.vend_risco)}</b></td><td>${esc(i.status)}</td><td class="t">${esc(i.visto_em)}</td><td><a href="${esc(i.url)}" target="_blank" rel="noopener">Ver ↗</a></td></tr>`).join("")}</tbody></table></div>`;
+ else $("#list").innerHTML=`<div class="tw"><table><thead><tr><th>Preço</th><th>¥</th><th>R$/GB</th><th>Anúncio</th><th>Specs</th><th>Local</th><th>Status</th><th>Visto</th><th></th></tr></thead><tbody>${a.map(i=>`<tr class="${bestIds.has(i.id)?"best":""}"><td><b>${brl(i.preco_brl)}</b></td><td>${cny(i.preco_yuan)}</td><td>${brl(i.preco_por_gb_brl)}</td><td>${esc(nome(i))}<div class="t">${esc(i.titulo)}</div></td><td><b>${i.cl?"CL"+i.cl:"CL?"}</b> · ${[i.kit,i.velocidade,"caixa: "+i.caixa_n,"RGB: "+i.rgb,"envio: "+i.envio].join(" · ")}</td><td class="t">${esc(i.frete_local)}<br>${esc(i.vend_nome||"?")} · <b>${esc(i.vend_risco)}</b></td><td>${esc(i.status)}</td><td class="t">${esc(i.visto_em)}</td><td><a href="${esc(i.url)}" target="_blank" rel="noopener">Abrir</a></td></tr>`).join("")}</tbody></table></div>`;
  document.querySelectorAll(".ph").forEach(p=>p.onclick=()=>{const i=D.find(x=>String(x.id)==p.dataset.id);if(i&&i.fotos&&i.fotos.length)openLb(i.fotos,0)});
  const m=$("#more");if(m)m.onclick=()=>{shown+=PAGE;render()};
  lastA=a;if($("#accCharts").open)drawCharts();
