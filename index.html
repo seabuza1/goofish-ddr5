@@ -74,7 +74,7 @@ input[type=range]{width:100%;accent-color:var(--acc);height:32px}
 <div class="scrim" id="scrim"></div>
 <div class="sheet" id="sheet" role="dialog" aria-label="Filtros"><div class="grab"></div>
 <div class="sh-h"><b>Filtros</b><button class="ib" id="closeF" aria-label="Fechar">✕</button></div>
-<div class="sh-b"><div id="chips"></div><div class="grp"><div>Preço máximo: <b id="pmaxv"></b></div><input type="range" id="pmax"></div></div>
+<div class="sh-b"><label class="grp" style="display:flex;gap:10px;align-items:center;min-height:44px"><input type="checkbox" id="nv" style="width:22px;height:22px;accent-color:var(--acc)"> Mostrar também anúncios não verificados</label><div id="chips"></div><div class="grp"><div>Preço máximo: <b id="pmaxv"></b></div><input type="range" id="pmax"></div></div>
 <div class="sh-f"><button class="ib" id="clear">Limpar</button><button class="ib on" id="apply">Ver <span id="applyN"></span> resultados</button></div></div>
 <div class="lb" id="lb"><img id="lbi" alt=""><div class="nav"><button class="ib" id="lbp">‹</button><span id="lbn" style="color:#fff;align-self:center"></span><button class="ib" id="lbn2">›</button><button class="ib" id="lbc">✕</button></div></div>
 <button class="ib fab" id="fab" aria-label="Voltar ao topo">↑</button>
@@ -83,7 +83,7 @@ const $=s=>document.querySelector(s),brl=n=>n==null?"—":n.toLocaleString("pt-B
 const esc=s=>String(s??"").replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const GROUPS=[["marca","Marca"],["capacidade_gb","Capacidade",v=>v&&v!="null"?v+"GB":"?"],["kit","Kit"],["velocidade","Velocidade",v=>v&&v!="null"?v+" MHz":"?"],["cl","Latência (CL)",v=>v&&v!="null"?"CL"+v:"?"],["caixa_n","Caixa"],["rgb","RGB"],["envio","Envio"],["vend_risco","Risco do vendedor"],["status","Status"]];
 const PAGE=20,isMobile=()=>innerWidth<760;
-let D=[],META={},PMAX=0,S={f:{},q:"",sort:"preco",view:"cards",pmax:null},shown=PAGE,charts={},bestIds=new Set();
+let D=[],META={},PMAX=0,S={f:{},q:"",sort:"preco",view:"cards",pmax:null,nv:false},shown=PAGE,charts={},bestIds=new Set();
 const saved=localStorage.getItem("theme");if(saved)document.documentElement.dataset.theme=saved;
 $("#theme").onclick=()=>{const t=document.documentElement.dataset.theme=="dark"?"light":"dark";document.documentElement.dataset.theme=t;localStorage.setItem("theme",t);if($("#accCharts").open)drawCharts()};
 function readHash(){try{const h=decodeURIComponent(location.hash.slice(1));if(h)Object.assign(S,JSON.parse(h))}catch(e){}}
@@ -100,13 +100,14 @@ function init(){
  readHash();if(!S.pmax)S.pmax=PMAX;if(isMobile()&&!location.hash)S.view="cards";
  $("#chips").innerHTML=GROUPS.map(([k,l,fm])=>{const vals=[...new Set(D.map(i=>String(i[k])))].sort((a,b)=>isNaN(a)||isNaN(b)?a.localeCompare(b):a-b);return `<div class="grp"><div>${l}</div><div class="chips">${vals.map(v=>`<button class="chip" data-k="${k}" data-v="${esc(v)}">${esc(fm?fm(v):v)} <small>${D.filter(i=>String(i[k])==v).length}</small></button>`).join("")}</div></div>`}).join("");
  $("#chips").onclick=e=>{const c=e.target.closest(".chip");if(!c)return;toggle(c.dataset.k,c.dataset.v)};
- $("#active").onclick=e=>{const c=e.target.closest(".chip");if(!c)return;if(c.dataset.k=="pmax")S.pmax=PMAX;else if(c.dataset.k=="q")S.q="";else toggle(c.dataset.k,c.dataset.v);render()};
+ $("#active").onclick=e=>{const c=e.target.closest(".chip");if(!c)return;if(c.dataset.k=="nv")S.nv=false;else if(c.dataset.k=="pmax")S.pmax=PMAX;else if(c.dataset.k=="q")S.q="";else toggle(c.dataset.k,c.dataset.v);render()};
+ $("#nv").onchange=e=>{S.nv=e.target.checked;shown=PAGE;render(true)};
  let qt;$("#q").oninput=e=>{clearTimeout(qt);qt=setTimeout(()=>{S.q=e.target.value;shown=PAGE;render()},150)};
  $("#sort").onchange=e=>{S.sort=e.target.value;shown=PAGE;render()};
  $("#pmax").oninput=e=>{S.pmax=+e.target.value;render(true)};
  $("#vCards").onclick=()=>{S.view="cards";render()};$("#vTable").onclick=()=>{S.view="table";render()};
  $("#openF").onclick=()=>openSheet(true);$("#closeF").onclick=$("#scrim").onclick=$("#apply").onclick=()=>{openSheet(false);render()};
- $("#clear").onclick=()=>{S={f:{},q:"",sort:S.sort,view:S.view,pmax:PMAX};shown=PAGE;render(true)};
+ $("#clear").onclick=()=>{S={f:{},q:"",sort:S.sort,view:S.view,pmax:PMAX,nv:false};shown=PAGE;render(true)};
  addEventListener("keydown",e=>{if(e.key=="Escape")openSheet(false)});
  window.onhashchange=()=>{readHash();render()};
  const fab=$("#fab");addEventListener("scroll",()=>fab.classList.toggle("show",scrollY>600),{passive:true});fab.onclick=()=>scrollTo({top:0,behavior:"smooth"});
@@ -119,27 +120,28 @@ function init(){
 let LB=[],LBi=0;function openLb(f,n){LB=f;LBi=n;$("#lbi").src=f[n];$("#lbn").textContent=(n+1)+"/"+f.length;$("#lb").classList.add("open")}
 document.addEventListener("click",e=>{if(e.target.id=="lbc"||e.target.id=="lb")$("#lb").classList.remove("open");if(e.target.id=="lbp")openLb(LB,(LBi-1+LB.length)%LB.length);if(e.target.id=="lbn2")openLb(LB,(LBi+1)%LB.length)});
 function toggle(k,v){const a=S.f[k]=S.f[k]||[];const ix=a.indexOf(v);ix<0?a.push(v):a.splice(ix,1);if(!a.length)delete S.f[k];shown=PAGE;render(true)}
-function filtered(){const q=S.q.toLowerCase();return D.filter(i=>Object.entries(S.f).every(([k,vs])=>vs.includes(String(i[k])))&&(!q||JSON.stringify(i).toLowerCase().includes(q))&&(i.preco_brl==null||i.preco_brl<=S.pmax))}
+function filtered(){const q=S.q.toLowerCase();return D.filter(i=>(S.nv||i.verificado)&&Object.entries(S.f).every(([k,vs])=>vs.includes(String(i[k])))&&(!q||JSON.stringify(i).toLowerCase().includes(q))&&(i.preco_brl==null||i.preco_brl<=S.pmax))}
 function sorted(a){const s=S.sort,d=s[0]=="-"?-1:1,k={preco:"preco_yuan",pgb:"preco_por_gb_brl",visto:"visto_em",vel:"velocidade",cl:"cl"}[s.replace("-","")];return a.slice().sort((x,y)=>{let p=x[k],q=y[k];if(k=="cl"){p=parseFloat(p)||999;q=parseFloat(q)||999}if(p==null)return 1;if(q==null)return-1;return(p>q?1:p<q?-1:0)*d})}
-function badges(i){return[i.kit!="desconhecido"?i.kit:null,i.capacidade_gb?i.capacidade_gb+"GB":null,i.velocidade?i.velocidade+" MHz":null,i.cl?"CL"+i.cl:null,i.estado].filter(Boolean).map(b=>`<span class="bd">${esc(b)}</span>`).join("")+`<span class="bd ${i.caixa_n=="com caixa"?"g":""}">Caixa: ${esc(i.caixa_n)}</span><span class="bd">RGB: ${esc(i.rgb)}</span>`+(i.envio=="sim"?`<span class="bd g">Envia</span>`:`<span class="bd w">Envio não confirmado</span>`)+(i.status!="à venda"?`<span class="bd w">${esc(i.status)}</span>`:"")+(bestIds.has(i.id)?`<span class="bd g">Mais barato em ${i.velocidade} MHz${i.kit!="desconhecido"?" "+i.kit:""}</span>`:"")}
+function ago(t){if(!t)return null;const m=Math.round((Date.now()-new Date(t.replace(' ','T')+':00-03:00'))/60000);return m<60?m+' min':m<1440?Math.round(m/60)+' h':Math.round(m/1440)+' d'}
+function badges(i){return[i.kit!="desconhecido"?i.kit:null,i.capacidade_gb?i.capacidade_gb+"GB":null,i.velocidade?i.velocidade+" MHz":null,i.cl?"CL"+i.cl:null,i.estado].filter(Boolean).map(b=>`<span class="bd">${esc(b)}</span>`).join("")+`<span class="bd ${i.caixa_n=="com caixa"?"g":""}">Caixa: ${esc(i.caixa_n)}</span><span class="bd">RGB: ${esc(i.rgb)}</span>`+(i.envio=="sim"?`<span class="bd g">Envia</span>`:`<span class="bd w">Envio não confirmado</span>`)+(i.verificado?`<span class="bd g">Verificado há ${ago(i.verificado_em)}</span>`:`<span class="bd w">Não verificado${i.verificado_em?" (há "+ago(i.verificado_em)+")":""}</span>`)+(i.cl_fonte=="foto"?`<span class="bd">CL pela foto</span>`:"")+(i.part_number?`<span class="bd">${esc(i.part_number)}</span>`:"")+(i.condicao_foto?`<span class="bd">Foto: ${esc(i.condicao_foto)}</span>`:"")+(i.status!="à venda"?`<span class="bd w">${esc(i.status)}</span>`:"")+(bestIds.has(i.id)?`<span class="bd g">Mais barato em ${i.velocidade} MHz${i.kit!="desconhecido"?" "+i.kit:""}</span>`:"")}
 const nome=i=>i.titulo_pt||i.label;
 function card(i,n){return `<div class="item ${bestIds.has(i.id)?"best":""}" >
  <div class="ph ${i.fotos&&i.fotos.length?"":"none"}" data-id="${esc(i.id)}">${i.fotos&&i.fotos.length?`<img loading="lazy" width="400" height="300" src="${esc(i.fotos[0])}" alt="">${i.fotos.length>1?`<span class="pn">${i.fotos.length} fotos</span>`:""}`:`<div class="noph">Sem foto</div>`}${i.cl?`<span class="clb">CL${i.cl}</span>`:""}</div>
  <div class="price">${brl(i.preco_brl)}<small>${cny(i.preco_yuan)}${i.preco_por_gb_brl?" · "+brl(i.preco_por_gb_brl)+"/GB":""}</small></div>
  <div><b>${esc(nome(i))}</b><div class="t">${esc(i.label)}${i.titulo?" · "+esc(i.titulo):""}</div></div><div class="badges">${badges(i)}</div>
- <details class="vend"><summary><span class="rk ${i.vend_risco=="confiável"?"ok":i.vend_risco=="atenção"?"md":"hi"}">${esc(i.vend_risco)}</span> ${esc(i.vend_nome||"vendedor ?")} · ${i.vend_vendas!=null?i.vend_vendas.toLocaleString("pt-BR")+" vendas":"vendas ?"}${i.vend_rating!=null?" · "+i.vend_rating+"%":""}</summary><ul>${(i.vend_motivos||[]).map(m=>`<li>${esc(m)}</li>`).join("")}</ul><div class="t">${i.vend_idade_dias!=null?"Conta: ~"+i.vend_idade_dias+" dias · ":""}Fonte: catálogo do bot. O perfil não foi consultado ao vivo.</div>${i.vend_url?`<a href="${esc(i.vend_url)}" target="_blank" rel="noopener">Ver perfil</a>`:""}</details>
+ <details class="vend"><summary><span class="rk ${i.vend_risco=="confiável"?"ok":i.vend_risco=="atenção"?"md":"hi"}">${esc(i.vend_risco)}</span> ${esc(i.vend_nome||"vendedor ?")} · ${i.vend_vendas!=null?i.vend_vendas.toLocaleString("pt-BR")+" vendas":"vendas ?"}${i.vend_rating!=null?" · "+i.vend_rating+"%":""}</summary><ul>${(i.vend_motivos||[]).map(m=>`<li>${esc(m)}</li>`).join("")}</ul><div class="t">${i.vend_idade_dias!=null?"No Goofish há ~"+(i.vend_idade_dias>=365?Math.round(i.vend_idade_dias/365)+" anos":i.vend_idade_dias+" dias")+". ":""}${i.vend_local?"Local: "+esc(i.vend_local)+". ":""}${i.vend_perfil?`Perfil: ${i.vend_perfil.em_venda??"?"} à venda, ${i.vend_perfil.vendidos??"?"} vendidos, ${i.vend_perfil.avaliacoes??"?"} avaliações${i.vend_perfil.flags&&i.vend_perfil.flags.length?", "+esc(i.vend_perfil.flags.join(", ")):""}. `:""}Fonte: ${esc(i.vend_fonte)}.</div>${i.vend_url?`<a href="${esc(i.vend_url)}" target="_blank" rel="noopener">Ver perfil</a>`:""}</details>
  <div class="t">${esc(i.frete_local||"Local não informado")}. Visto em ${esc(i.visto_em)}</div>
  <a class="go" href="${esc(i.url)}" target="_blank" rel="noopener">Abrir no Goofish</a></div>`}
 function render(soft){
- writeHash();if($("#q").value!==S.q)$("#q").value=S.q;$("#sort").value=S.sort;$("#pmax").value=S.pmax;$("#pmaxv").textContent=brl(+S.pmax);
+ writeHash();$("#nv").checked=!!S.nv;if($("#q").value!==S.q)$("#q").value=S.q;$("#sort").value=S.sort;$("#pmax").value=S.pmax;$("#pmaxv").textContent=brl(+S.pmax);
  document.querySelectorAll("#chips .chip").forEach(c=>c.classList.toggle("on",(S.f[c.dataset.k]||[]).includes(c.dataset.v)));
- const act=Object.entries(S.f).flatMap(([k,vs])=>vs.map(v=>[k,v,fmtOf(k)(v)]));if(S.pmax<PMAX)act.push(["pmax","","até "+brl(+S.pmax)]);if(S.q)act.push(["q","","“"+S.q+"”"]);
+ const act=Object.entries(S.f).flatMap(([k,vs])=>vs.map(v=>[k,v,fmtOf(k)(v)]));if(S.pmax<PMAX)act.push(["pmax","","até "+brl(+S.pmax)]);if(S.q)act.push(["q","","“"+S.q+"”"]);if(S.nv)act.push(["nv","","inclui não verificados"]);
  $("#active").innerHTML=act.map(([k,v,l])=>`<button class="chip rm" data-k="${k}" data-v="${esc(v)}" aria-label="Remover filtro">${esc(l)} ✕</button>`).join("");
  const n=act.length;$("#fcount").hidden=!n;$("#fcount").textContent=n;$("#openF").classList.toggle("on",n>0);
  const view=isMobile()?"cards":S.view;$("#vCards").classList.toggle("on",view=="cards");$("#vTable").classList.toggle("on",view=="table");
- const a=sorted(filtered());$("#count").textContent=`${a.length} de ${D.length} anúncios`;$("#applyN").textContent=a.length;
+ const a=sorted(filtered());$("#count").textContent=`${a.length} anúncios${S.nv?"":" verificados"} (${D.filter(i=>i.verificado).length} de ${D.length} verificados nas últimas 6 h)`;$("#applyN").textContent=a.length;
  if(soft&&$("#sheet").classList.contains("open"))return;
- if(!a.length)$("#list").innerHTML=`<div class="empty">Nada bate com esses filtros.<br><br><button class="ib" onclick="$('#clear').click()">Limpar filtros</button></div>`;
+ if(!a.length)$("#list").innerHTML=`<div class="empty">${S.nv?"Nada bate com esses filtros.":"Nenhum anúncio verificado bate com esses filtros. A verificação passa por todos os anúncios aos poucos; ative “mostrar não verificados” nos filtros para ver o resto."}<br><br><button class="ib" onclick="$('#clear').click()">Limpar filtros</button></div>`;
  else if(view=="cards")$("#list").innerHTML=`<div class="grid">${a.slice(0,shown).map(card).join("")}</div>`+(a.length>shown?`<button class="ib more" id="more">Carregar mais (${a.length-shown} restantes)</button>`:"");
  else $("#list").innerHTML=`<div class="tw"><table><thead><tr><th>Preço</th><th>¥</th><th>R$/GB</th><th>Anúncio</th><th>Specs</th><th>Local</th><th>Status</th><th>Visto</th><th></th></tr></thead><tbody>${a.map(i=>`<tr class="${bestIds.has(i.id)?"best":""}"><td><b>${brl(i.preco_brl)}</b></td><td>${cny(i.preco_yuan)}</td><td>${brl(i.preco_por_gb_brl)}</td><td>${esc(nome(i))}<div class="t">${esc(i.titulo)}</div></td><td><b>${i.cl?"CL"+i.cl:"CL?"}</b> · ${[i.kit,i.velocidade,"caixa: "+i.caixa_n,"RGB: "+i.rgb,"envio: "+i.envio].join(" · ")}</td><td class="t">${esc(i.frete_local)}<br>${esc(i.vend_nome||"?")} · <b>${esc(i.vend_risco)}</b></td><td>${esc(i.status)}</td><td class="t">${esc(i.visto_em)}</td><td><a href="${esc(i.url)}" target="_blank" rel="noopener">Abrir</a></td></tr>`).join("")}</tbody></table></div>`;
  document.querySelectorAll(".ph").forEach(p=>p.onclick=()=>{const i=D.find(x=>String(x.id)==p.dataset.id);if(i&&i.fotos&&i.fotos.length)openLb(i.fotos,0)});
