@@ -139,7 +139,7 @@ function render(soft){
  $("#active").innerHTML=act.map(([k,v,l])=>`<button class="chip rm" data-k="${k}" data-v="${esc(v)}" aria-label="Remover filtro">${esc(l)} ✕</button>`).join("");
  const n=act.length;$("#fcount").hidden=!n;$("#fcount").textContent=n;$("#openF").classList.toggle("on",n>0);
  const view=isMobile()?"cards":S.view;$("#vCards").classList.toggle("on",view=="cards");$("#vTable").classList.toggle("on",view=="table");
- const a=sorted(filtered());$("#count").textContent=`${a.length} anúncios${S.nv?"":" verificados"} (${D.filter(i=>i.verificado).length} de ${D.length} verificados nas últimas 6 h)`;$("#applyN").textContent=a.length;
+ const a=sorted(filtered());$("#count").textContent=`${a.length} anúncios${S.nv?"":" verificados"} (${D.filter(i=>i.verificado).length} de ${D.length} verificados nas últimas 12 h)`;$("#applyN").textContent=a.length;
  if(soft&&$("#sheet").classList.contains("open"))return;
  if(!a.length)$("#list").innerHTML=`<div class="empty">${S.nv?"Nada bate com esses filtros.":"Nenhum anúncio verificado bate com esses filtros. A verificação passa por todos os anúncios aos poucos; ative “mostrar não verificados” nos filtros para ver o resto."}<br><br><button class="ib" onclick="$('#clear').click()">Limpar filtros</button></div>`;
  else if(view=="cards")$("#list").innerHTML=`<div class="grid">${a.slice(0,shown).map(card).join("")}</div>`+(a.length>shown?`<button class="ib more" id="more">Carregar mais (${a.length-shown} restantes)</button>`:"");
