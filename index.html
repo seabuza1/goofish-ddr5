@@ -1,0 +1,16 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Goofish DDR5</title>
+<style>body{font-family:system-ui;margin:20px;background:#111;color:#eee}table{border-collapse:collapse;width:100%;font-size:13px}th,td{border-bottom:1px solid #333;padding:5px;text-align:left;vertical-align:top}th{cursor:pointer;background:#222;position:sticky;top:0}a{color:#6cf}.cards{display:flex;gap:12px;margin:10px 0}.card{background:#222;padding:10px 16px;border-radius:8px}input,select{padding:6px;background:#222;color:#eee;border:1px solid #444}td.o{max-width:420px;font-size:11px;color:#aaa}</style></head><body>
+<h2>Anúncios DDR5 encontrados no Goofish</h2><div id="meta"></div><div class="cards" id="cards"></div>
+<input id="q" placeholder="Filtrar (marca, modelo, cidade...)" size="40"> <select id="v"><option value="">Todos</option><option value="não">À venda</option><option value="sim">Vendidos</option></select>
+<table><thead><tr id="h"></tr></thead><tbody id="b"></tbody></table>
+<script>
+const C=[["marca","Marca"],["modelo","Modelo"],["frequencia","MHz"],["cl","CL"],["preco_yuan","¥"],["preco_brl","R$ aprox."],["estado","Estado"],["caixa","Caixa"],["frete_local","Frete/local"],["vendas_vendedor","Vendedor"],["score","Score"],["risco","Risco"],["vendido","Vendido"],["visto_em","Visto em"],["url","Link"],["observacoes","Obs."]];
+let D=[],sk="preco_yuan",asc=true;const f=n=>n==null?"":n.toLocaleString("pt-BR");
+fetch("data.json?"+Date.now()).then(r=>r.json()).then(d=>{D=d.items;meta.innerHTML=`Atualizado ${d.gerado_em} · Câmbio ¥1 = R$${d.taxa_cny_brl.toFixed(4)} (${d.taxa_fonte})`;
+cards.innerHTML=`<div class=card>Itens: <b>${d.count}</b></div><div class=card>Mais barato: <b>¥${f(d.min)}</b> (R$${f(d.min&&Math.round(d.min*d.taxa_cny_brl))})</div><div class=card>Mediana: <b>¥${f(d.mediana)}</b></div>`;
+h.innerHTML=C.map(c=>`<th data-k=${c[0]}>${c[1]}</th>`).join("");h.onclick=e=>{let k=e.target.dataset.k;if(!k)return;asc=sk==k?!asc:true;sk=k;draw()};draw()});
+q.oninput=v.onchange=draw;
+function draw(){let t=q.value.toLowerCase();let r=D.filter(i=>(!t||JSON.stringify(i).toLowerCase().includes(t))&&(!v.value||(v.value=="sim"?/^(sim|prov)/.test(i.vendido||""):!/^(sim|prov)/.test(i.vendido||""))));
+r.sort((a,b)=>{let x=a[sk],y=b[sk];let nx=parseFloat(x),ny=parseFloat(y);if(!isNaN(nx)&&!isNaN(ny)){x=nx;y=ny}return (x>y?1:x<y?-1:0)*(asc?1:-1)});
+b.innerHTML=r.length?r.map(i=>"<tr>"+C.map(([k])=>k=="url"?`<td><a href="${i.url}" target=_blank>abrir</a></td>`:`<td class="${k=="observacoes"?"o":""}">${(k.startsWith("preco")?f(i[k]):(i[k]??"")).toString().replace(/</g,"&lt;")}</td>`).join("")+"</tr>").join(""):"<tr><td colspan=16>Nenhum item encontrado.</td></tr>"}
+</script></body></html>
